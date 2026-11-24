@@ -1,0 +1,2716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="dashboard">
+  <meta name="design-style" content="briefing">
+  <title>Sinyasat — Philippine Politician &amp; Voter Information Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --background: #F5EFE6;
+      --surface-container-low: #FAF6EF;
+      --surface-container: #E8DFCA;
+      --surface-container-high: #DDD1B8;
+      --surface-white: #FFFFFF;
+
+      --on-surface: #1A232E;
+      --on-surface-variant: #4A5563;
+
+      --outline: #7895B2;
+      --outline-variant: #AEBDCA;
+      --outline-rule: #2A3847;
+
+      --primary: #7895B2;
+      --primary-deep: #3D5A78;
+      --primary-ink: #172330;
+      --on-primary: #FFFFFF;
+      --primary-container: #AEBDCA;
+      --on-primary-container: #14202D;
+      --secondary: #3D5A78;
+      --tertiary: #5E4B28;
+      --error: #A62626;
+      --on-error: #FFFFFF;
+
+      --positive: #255E44;
+      --positive-bg: #E4EFE9;
+      --warning: #7D5211;
+      --warning-bg: #F6ECD9;
+      --info-bg: #E5ECF2;
+      --error-bg: #F8E5E5;
+      --focus: #3D5A78;
+
+      --flag-blue: #1D4488;
+      --flag-red: #B8292F;
+      --flag-gold: #E6AF2E;
+      --flag-white: #FAF6EF;
+
+      --data-1: #7895B2;
+      --data-2: #3D5A78;
+      --data-3: #255E44;
+      --data-4: #A62626;
+      --data-context: #AEBDCA;
+
+      --font-headline: 'Source Serif 4', Georgia, serif;
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-label: 'Geist Mono', monospace;
+
+      --display-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.35rem);
+      --headline-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.55rem);
+      --subhead-size: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+      --body-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
+      --label-size: 0.75rem;
+
+      --rounded: 0.375rem;
+      --rounded-lg: 0.625rem;
+      --rounded-pill: 9999px;
+      --badge-radius: 0.25rem;
+      --section-rule: 1.5px solid var(--outline-rule);
+      --card-border: 1px solid var(--outline-variant);
+      --shadow-sm: 0 2px 6px rgba(26, 35, 46, 0.06);
+      --shadow-md: 0 8px 22px rgba(26, 35, 46, 0.10);
+      --shadow-lg: 0 18px 46px rgba(26, 35, 46, 0.18);
+      --heading-tracking: -0.02em;
+      --label-tracking: 0.07em;
+
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.58;
+      -webkit-font-smoothing: antialiased;
+    }
+    button, input, select, textarea { font-family: inherit; }
+    :focus-visible { outline: 2.5px solid var(--focus); outline-offset: 2px; }
+
+    header {
+      position: static !important;
+      background-color: var(--surface-container);
+      border-bottom: 1.5px solid var(--outline-variant);
+    }
+    .header-inner {
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: var(--space-md) var(--space-lg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+    }
+    .brand-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-md);
+      background: transparent;
+      border: none;
+      padding: var(--space-xs);
+      cursor: pointer;
+      color: var(--on-surface);
+      text-align: left;
+      border-radius: var(--rounded);
+    }
+    .brand-btn:hover { opacity: 0.88; }
+    .brand-emblem {
+      width: 52px;
+      height: 52px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background-color: var(--surface-container-low);
+      border: 2.5px solid var(--primary-ink);
+      box-shadow: var(--shadow-sm);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+    .brand-emblem svg, .brand-emblem img { width: 100%; height: 100%; display: block; object-fit: contain; }
+    .brand-text { display: flex; flex-direction: column; line-height: 1.15; }
+    .brand-title {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: 1.4rem;
+      letter-spacing: -0.015em;
+      color: var(--on-surface);
+    }
+    .brand-tagline {
+      font-family: var(--font-label);
+      font-size: 0.72rem;
+      letter-spacing: var(--label-tracking);
+      text-transform: uppercase;
+      color: var(--secondary);
+    }
+    .civic-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      background-color: var(--surface-container-low);
+      border: 1px solid var(--outline-variant);
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .civic-badge strong { color: var(--primary-deep); }
+
+    .nav-bar {
+      background-color: var(--surface-container-low);
+      border-bottom: var(--card-border);
+    }
+    .nav-inner {
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: var(--space-sm) var(--space-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+    }
+    .nav-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: 0.5rem 0.9rem;
+      min-height: 44px;
+      border-radius: var(--rounded);
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--on-surface-variant);
+      font-size: 0.89rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color var(--dur-short) var(--ease-out), color var(--dur-short) var(--ease-out), border-color var(--dur-short) var(--ease-out);
+    }
+    .nav-tab:hover { background-color: var(--surface-container); color: var(--on-surface); }
+    .nav-tab.active {
+      background-color: var(--primary);
+      color: var(--primary-ink);
+      border-color: var(--primary-deep);
+      box-shadow: var(--shadow-sm);
+    }
+    .tab-pill {
+      font-family: var(--font-label);
+      font-size: 0.7rem;
+      padding: 0.1rem 0.42rem;
+      border-radius: var(--badge-radius);
+      background-color: var(--surface-container);
+      color: var(--primary-deep);
+    }
+    .nav-tab.active .tab-pill { background-color: var(--primary-ink); color: var(--surface-white); }
+
+    .page-grid {
+      display: grid;
+      gap: var(--space-lg);
+      padding: var(--space-lg);
+      max-width: 1260px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .page-grid * { min-width: 0; }
+    .view-section { display: none; }
+    .view-section.active { display: block; animation: fadeSlide var(--dur-short) var(--ease-out); }
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .dossier-bar {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      border-bottom: var(--section-rule);
+      padding-bottom: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .dossier-pill {
+      background-color: var(--primary);
+      color: var(--primary-ink);
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: var(--label-tracking);
+      text-transform: uppercase;
+      padding: 0.22rem 0.6rem;
+      border-radius: var(--badge-radius);
+    }
+    .dossier-meta {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .hero-title {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: var(--display-size);
+      line-height: 1.1;
+      letter-spacing: var(--heading-tracking);
+      margin: 0 0 var(--space-xs) 0;
+    }
+    .hero-lede {
+      color: var(--secondary);
+      font-weight: 500;
+      font-size: var(--subhead-size);
+      max-width: 68ch;
+      margin: 0 0 var(--space-lg) 0;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+    .kpi-card {
+      background-color: var(--surface-container);
+      border: var(--card-border);
+      border-top: 3px solid var(--primary);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      box-shadow: var(--shadow-sm);
+    }
+    .kpi-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--on-surface-variant);
+      display: block;
+    }
+    .kpi-val {
+      font-family: var(--font-headline);
+      font-size: 1.75rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      margin-top: var(--space-xs);
+      display: block;
+    }
+
+    .context-notice {
+      background-color: var(--surface-container-low);
+      border: var(--card-border);
+      border-left: 4px solid var(--primary-deep);
+      border-radius: var(--rounded);
+      padding: var(--space-md) var(--space-lg);
+      margin-bottom: var(--space-lg);
+      display: flex;
+      gap: var(--space-md);
+      align-items: flex-start;
+    }
+    .notice-icon {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background-color: var(--primary);
+      color: var(--primary-ink);
+      font-family: var(--font-headline);
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      margin-top: 2px;
+    }
+    .context-notice h3 { margin: 0 0 var(--space-xs) 0; font-size: 1rem; }
+    .context-notice p { margin: 0; font-size: 0.92rem; color: var(--on-surface-variant); max-width: 74ch; }
+
+    .filter-panel {
+      background-color: var(--surface-container);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      margin-bottom: var(--space-lg);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr));
+      gap: var(--space-md);
+      align-items: end;
+      box-shadow: var(--shadow-sm);
+    }
+    .field-group { display: flex; flex-direction: column; gap: var(--space-xs); }
+    .field-group label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .field-control {
+      min-height: 44px;
+      padding: 0.55rem 0.75rem;
+      border-radius: var(--rounded);
+      border: 1px solid var(--outline-variant);
+      background-color: var(--surface-white);
+      color: var(--on-surface);
+      font-size: 0.94rem;
+    }
+    select.field-control { padding-right: 2rem; cursor: pointer; }
+    .field-control:focus {
+      border-color: var(--primary-deep);
+      box-shadow: 0 0 0 3px rgba(120, 149, 178, 0.25);
+      outline: none;
+    }
+    .results-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: 0.55rem 1rem;
+      border-radius: var(--rounded);
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: background-color var(--dur-short) var(--ease-out), transform var(--dur-micro) var(--ease-out);
+    }
+    .btn-primary { background-color: var(--primary-deep); color: var(--on-primary); }
+    .btn-primary:hover { background-color: var(--primary-ink); transform: translateY(-1px); }
+    .btn-accent { background-color: var(--primary); color: var(--primary-ink); border-color: var(--primary-deep); }
+    .btn-accent:hover { background-color: var(--primary-container); }
+    .btn-secondary { background-color: var(--surface-white); color: var(--on-surface); border-color: var(--outline-variant); }
+    .btn-secondary:hover { background-color: var(--surface-container); border-color: var(--primary); }
+    .btn-sm { min-height: 36px; padding: 0.35rem 0.7rem; font-size: 0.82rem; }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr));
+      gap: var(--space-lg);
+    }
+    .pol-card {
+      background-color: var(--surface-container);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--dur-short) var(--ease-out), box-shadow var(--dur-short) var(--ease-out), border-color var(--dur-short) var(--ease-out);
+    }
+    .pol-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--primary); }
+    .pol-card-top { display: flex; gap: var(--space-md); align-items: center; }
+    .portrait-frame {
+      width: 78px;
+      height: 78px;
+      flex-shrink: 0;
+      border-radius: var(--rounded-lg);
+      overflow: hidden;
+      border: 2px solid var(--outline-variant);
+      background-color: var(--surface-container-low);
+      position: relative;
+    }
+    .portrait-frame svg, .portrait-frame img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: top center;
+    }
+    .portrait-lg { width: 108px; height: 108px; border: 2.5px solid var(--primary); }
+    .pol-meta-col { display: flex; flex-direction: column; gap: 0.25rem; }
+    .branch-tag {
+      display: inline-block;
+      align-self: flex-start;
+      font-family: var(--font-label);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.14rem 0.45rem;
+      border-radius: var(--badge-radius);
+      background-color: var(--surface-container-low);
+      border: 1px solid var(--outline-variant);
+      color: var(--primary-deep);
+      font-weight: 600;
+    }
+    .pol-name { font-family: var(--font-headline); font-size: 1.18rem; font-weight: 700; margin: 0; line-height: 1.2; }
+    .pol-pos { font-size: 0.85rem; font-weight: 600; color: var(--secondary); margin: 0; }
+    .pol-bio {
+      font-size: 0.9rem;
+      color: var(--on-surface-variant);
+      margin: var(--space-xs) 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .pol-badges { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-top: auto; padding-top: var(--space-xs); }
+    .status-badge {
+      font-family: var(--font-label);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.18rem 0.5rem;
+      border-radius: var(--badge-radius);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .status-clean { background-color: var(--positive-bg); color: var(--positive); }
+    .status-alleged { background-color: var(--warning-bg); color: var(--warning); }
+    .status-dismissed { background-color: var(--info-bg); color: var(--primary-deep); }
+    .status-convicted { background-color: var(--error-bg); color: var(--error); }
+    .status-pending { background-color: var(--surface-container-high); color: var(--tertiary); }
+
+    .pol-card-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      padding-top: var(--space-sm);
+      border-top: 1px solid var(--outline-variant);
+      margin-top: var(--space-xs);
+    }
+    .explore-btn {
+      background: transparent;
+      border: none;
+      padding: 0.35rem 0;
+      min-height: 44px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--primary-deep);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .explore-btn:hover { text-decoration: underline; }
+
+    .empty-box {
+      background-color: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-xl);
+      text-align: center;
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background-color: rgba(23, 35, 48, 0.58);
+      z-index: 900;
+      padding: var(--space-lg);
+      overflow-y: auto;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-dialog {
+      background-color: var(--background);
+      border: 1.5px solid var(--outline);
+      border-radius: var(--rounded-lg);
+      max-width: 920px;
+      width: 100%;
+      margin: var(--space-md) auto;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+    .modal-head {
+      background-color: var(--surface-container);
+      border-bottom: 1.5px solid var(--outline-variant);
+      padding: var(--space-lg);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+    }
+    .modal-identity { display: flex; gap: var(--space-lg); align-items: center; flex-wrap: wrap; }
+    .modal-title { font-family: var(--font-headline); font-size: var(--headline-size); font-weight: 700; margin: 0.2rem 0; }
+    .modal-close {
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: var(--rounded);
+      border: 1px solid var(--outline-variant);
+      background-color: var(--surface-white);
+      color: var(--on-surface);
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+    .modal-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      background-color: var(--surface-container-low);
+      border-bottom: var(--card-border);
+      padding: var(--space-sm) var(--space-lg);
+    }
+    .modal-tab {
+      min-height: 40px;
+      padding: 0.4rem 0.8rem;
+      border-radius: var(--rounded);
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--on-surface-variant);
+      font-weight: 600;
+      font-size: 0.86rem;
+      cursor: pointer;
+    }
+    .modal-tab:hover { background-color: var(--surface-container); color: var(--on-surface); }
+    .modal-tab.active { background-color: var(--primary); color: var(--primary-ink); border-color: var(--primary-deep); }
+    .modal-body { padding: var(--space-lg); max-height: 66vh; overflow-y: auto; }
+
+    .timeline {
+      border-left: 2px solid var(--primary);
+      padding-left: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      margin: var(--space-md) 0;
+    }
+    .timeline-item {
+      position: relative;
+      background-color: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+    }
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: calc(-1 * var(--space-lg) - 6px);
+      top: 0.9rem;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: var(--primary-deep);
+      border: 2px solid var(--background);
+    }
+    .timeline-year { font-family: var(--font-label); font-size: var(--label-size); font-weight: 600; color: var(--primary-deep); display: block; }
+
+    .proj-list { display: flex; flex-direction: column; gap: var(--space-sm); }
+    .proj-item { background-color: var(--surface-container-low); border: var(--card-border); border-radius: var(--rounded); overflow: hidden; }
+    .proj-item summary {
+      padding: var(--space-md);
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+      list-style: none;
+    }
+    .proj-item summary::-webkit-details-marker { display: none; }
+    .proj-item[open] summary { background-color: var(--surface-container); border-bottom: 1px solid var(--outline-variant); }
+    .proj-date { font-family: var(--font-label); font-size: var(--label-size); color: var(--secondary); margin-right: var(--space-sm); }
+    .proj-content { padding: var(--space-md); font-size: 0.92rem; }
+    .proj-dl { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: var(--space-xs) var(--space-md); margin: var(--space-sm) 0 0 0; }
+    .proj-dl dt { font-family: var(--font-label); font-size: var(--label-size); text-transform: uppercase; color: var(--on-surface-variant); }
+    .proj-dl dd { margin: 0; }
+
+    .record-card {
+      background-color: var(--surface-container-low);
+      border: var(--card-border);
+      border-left: 4px solid var(--primary);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      margin-bottom: var(--space-sm);
+    }
+    .record-card h4 { margin: 0 0 var(--space-xs) 0; font-size: 0.98rem; }
+    .record-card p { margin: 0 0 var(--space-xs) 0; font-size: 0.9rem; color: var(--on-surface-variant); }
+
+    .citation-row {
+      background-color: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+      margin-bottom: var(--space-sm);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+    }
+    .citation-text { font-size: 0.88rem; flex: 1 1 320px; margin: 0; }
+
+    .compare-controls {
+      background-color: var(--surface-container);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+    .compare-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: var(--space-lg); }
+    .compare-col {
+      background-color: var(--surface-container-low);
+      border: var(--card-border);
+      border-top: 3px solid var(--primary-deep);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .compare-block h4 {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--secondary);
+      margin: 0 0 var(--space-xs) 0;
+      border-bottom: 1px solid var(--outline-variant);
+      padding-bottom: 0.2rem;
+    }
+    .compare-block ul { margin: 0; padding-left: 1.1rem; font-size: 0.9rem; }
+
+    .quiz-layout { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: var(--space-lg); align-items: start; }
+    .quiz-card { background-color: var(--surface-container); border: var(--card-border); border-radius: var(--rounded-lg); padding: var(--space-lg); }
+    .quiz-q { margin-bottom: var(--space-lg); padding-bottom: var(--space-md); border-bottom: 1px solid var(--outline-variant); }
+    .quiz-q:last-of-type { border-bottom: none; margin-bottom: var(--space-md); }
+    .quiz-q h3 { font-family: var(--font-headline); font-size: 1.08rem; margin: 0 0 var(--space-sm) 0; }
+    .quiz-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: var(--space-sm); }
+    .quiz-opt {
+      display: flex;
+      align-items: center;
+      text-align: left;
+      background-color: var(--surface-container-low);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      padding: 0.6rem 0.75rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      min-height: 44px;
+    }
+    .quiz-opt:hover { background-color: var(--surface-white); border-color: var(--primary); }
+    .quiz-opt.selected { background-color: var(--info-bg); border-color: var(--primary-deep); font-weight: 600; }
+    .match-card {
+      background-color: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      margin-bottom: var(--space-md);
+      display: flex;
+      gap: var(--space-md);
+      align-items: flex-start;
+    }
+
+    .elections-layout { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.35fr); gap: var(--space-lg); align-items: start; }
+    .step-nav { display: flex; flex-direction: column; gap: var(--space-xs); }
+    .step-btn {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      text-align: left;
+      min-height: 48px;
+      padding: 0.65rem 0.9rem;
+      border-radius: var(--rounded);
+      border: 1px solid var(--outline-variant);
+      background-color: var(--surface-container-low);
+      color: var(--on-surface);
+      cursor: pointer;
+    }
+    .step-btn:hover { background-color: var(--surface-container); }
+    .step-btn.active { background-color: var(--primary); color: var(--primary-ink); border-color: var(--primary-deep); font-weight: 700; }
+    .step-num {
+      font-family: var(--font-label);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.15rem 0.45rem;
+      border-radius: var(--badge-radius);
+      background-color: var(--surface-container);
+      color: var(--primary-deep);
+    }
+    .step-btn.active .step-num { background-color: var(--primary-ink); color: var(--surface-white); }
+    .step-detail-card {
+      background-color: var(--surface-container);
+      border: var(--card-border);
+      border-top: 3px solid var(--primary-deep);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-xl);
+    }
+    .report-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: var(--space-md); margin-top: var(--space-lg); }
+    .report-card { background-color: var(--surface-container-low); border: var(--card-border); border-radius: var(--rounded); padding: var(--space-md); }
+
+    .about-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr)); gap: var(--space-lg); }
+    .about-card {
+      background-color: var(--surface-container);
+      border: var(--card-border);
+      border-top: 3px solid var(--primary-deep);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      box-shadow: var(--shadow-sm);
+    }
+    .about-card h2 { font-family: var(--font-headline); font-size: var(--headline-size); margin: var(--space-xs) 0 var(--space-sm) 0; }
+
+    .ai-workspace { display: grid; grid-template-columns: minmax(0, 290px) minmax(0, 1fr); gap: var(--space-lg); align-items: start; }
+    .ai-sidebar {
+      background-color: var(--surface-container);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .prompt-chip {
+      text-align: left;
+      background-color: var(--surface-container-low);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      padding: 0.55rem 0.75rem;
+      font-size: 0.85rem;
+      color: var(--on-surface);
+      cursor: pointer;
+      min-height: 44px;
+    }
+    .prompt-chip:hover { background-color: var(--surface-white); border-color: var(--primary-deep); }
+    .ai-chat-panel {
+      background-color: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      display: flex;
+      flex-direction: column;
+      min-height: 500px;
+      max-height: 660px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .ai-messages { flex: 1 1 auto; overflow-y: auto; padding: var(--space-lg); display: flex; flex-direction: column; gap: var(--space-md); }
+    .msg-bubble { max-width: 88%; padding: var(--space-md); border-radius: var(--rounded-lg); font-size: 0.94rem; line-height: 1.55; }
+    .msg-assistant { align-self: flex-start; background-color: var(--surface-container); border: 1px solid var(--outline-variant); }
+    .msg-user { align-self: flex-end; background-color: var(--primary-deep); color: var(--on-primary); }
+    .ai-input-row { display: flex; gap: var(--space-sm); padding: var(--space-md); background-color: var(--surface-container); border-top: 1px solid var(--outline-variant); align-items: end; }
+    .ai-link-row { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-top: var(--space-sm); }
+
+    .floating-ai-btn {
+      position: fixed;
+      right: 1.5rem;
+      bottom: 1.5rem;
+      z-index: 800;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: var(--primary-deep);
+      color: var(--on-primary);
+      border: 2.5px solid var(--primary-container);
+      box-shadow: var(--shadow-md);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .floating-ai-btn:hover { transform: scale(1.06); background-color: var(--primary-ink); }
+    .floating-ai-label { font-family: var(--font-label); font-size: 0.56rem; letter-spacing: 0.04em; text-transform: uppercase; margin-top: 2px; }
+    .quick-drawer {
+      display: none;
+      position: fixed;
+      right: 1.5rem;
+      bottom: 5.75rem;
+      width: min(390px, calc(100vw - 2rem));
+      background-color: var(--background);
+      border: 1.5px solid var(--primary-deep);
+      border-radius: var(--rounded-lg);
+      box-shadow: var(--shadow-lg);
+      z-index: 810;
+      overflow: hidden;
+    }
+    .quick-drawer.open { display: block; }
+    .quick-drawer-head {
+      background-color: var(--surface-container);
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: 1px solid var(--outline-variant);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .quick-drawer-body { padding: var(--space-md); display: flex; flex-direction: column; gap: var(--space-sm); }
+    .quick-drawer-msgs { max-height: 290px; overflow-y: auto; display: flex; flex-direction: column; gap: var(--space-sm); }
+
+    @media (max-width: 820px) {
+      .quiz-layout, .elections-layout, .ai-workspace { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .page-grid { padding: var(--space-md); }
+      .header-inner, .nav-inner { padding: var(--space-sm) var(--space-md); }
+      .proj-dl { grid-template-columns: 1fr; }
+      .floating-ai-btn { right: 1rem; bottom: 1rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <button type="button" class="brand-btn" onclick="switchView('directory')">
+        <span class="brand-emblem" aria-hidden="true">
+          <img src="Untitled design-7.png" alt="Sinyasat emblem">
+        </span>
+        <span class="brand-text">
+          <span class="brand-title">Sinyasat</span>
+          <span class="brand-tagline">Know more. Vote better.</span>
+        </span>
+      </button>
+      <div class="civic-badge">
+        <strong>PHILIPPINES</strong>
+        <span>Nonpartisan Electoral &amp; Civic Reference</span>
+      </div>
+    </div>
+    <nav class="nav-bar" aria-label="Primary sections">
+      <div class="nav-inner">
+        <button type="button" class="nav-tab active" data-view="directory" onclick="switchView('directory')">Politician Directory <span class="tab-pill">18</span></button>
+        <button type="button" class="nav-tab" data-view="compare" onclick="switchView('compare')">Compare Candidates</button>
+        <button type="button" class="nav-tab" data-view="quiz" onclick="switchView('quiz')">Match My Priorities</button>
+        <button type="button" class="nav-tab" data-view="elections" onclick="switchView('elections')">Philippine Elections Guide</button>
+        <button type="button" class="nav-tab" data-view="assistant" onclick="switchView('assistant')">AI Civic Assistant</button>
+        <button type="button" class="nav-tab" data-view="about" onclick="switchView('about')">About &amp; Team</button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="page-grid">
+    <!-- SECTION 1: POLITICIAN DIRECTORY -->
+    <section id="view-directory" class="view-section active">
+      <div class="dossier-bar">
+        <span class="dossier-pill">Public Record Index</span>
+        <span class="dossier-meta">18 Documented Profiles · Neutral Background, Legislation &amp; Legal Status</span>
+      </div>
+      <h1 class="hero-title">Look beyond the name.</h1>
+      <p class="hero-lede">
+        Explore backgrounds, educational timelines, enacted laws, and verified legal dispositions for 18 Philippine public officials—designed for first-time and experienced voters.
+      </p>
+
+      <div class="kpi-grid">
+        <div class="kpi-card"><span class="kpi-label">Profiles Indexed</span><span class="kpi-val" id="kpi-total">18</span></div>
+        <div class="kpi-card"><span class="kpi-label">Executive &amp; Local Leaders</span><span class="kpi-val" id="kpi-exec-local">6</span></div>
+        <div class="kpi-card"><span class="kpi-label">Senators &amp; Representatives</span><span class="kpi-val" id="kpi-leg">12</span></div>
+        <div class="kpi-card"><span class="kpi-label">Clean / No Charges Noted</span><span class="kpi-val" id="kpi-clean">5</span></div>
+      </div>
+
+      <div class="context-notice">
+        <div class="notice-icon" aria-hidden="true">i</div>
+        <div>
+          <h3>An informed choice starts with legal context.</h3>
+          <p>
+            An allegation, audit disallowance, or complaint is distinct from a final court conviction. Each dossier separates documented legislative accomplishments from pending inquiries, dismissals, acquittals, and convictions, paired with copyable APA citations.
+          </p>
+        </div>
+      </div>
+
+      <div class="filter-panel">
+        <div class="field-group">
+          <label for="search-name">Search Politician by Name</label>
+          <input id="search-name" class="field-control" type="text" placeholder="e.g., Robredo, Tulfo, Sotto" oninput="renderDirectory()">
+        </div>
+        <div class="field-group">
+          <label for="filter-branch">Government Branch</label>
+          <select id="filter-branch" class="field-control" onchange="renderDirectory()">
+            <option value="ALL">All Branches</option>
+            <option value="Executive">Executive</option>
+            <option value="Senate">Senate</option>
+            <option value="House of Representatives">House of Representatives</option>
+            <option value="Local Government">Local Government</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label for="filter-record">Legal Record Status</label>
+          <select id="filter-record" class="field-control" onchange="renderDirectory()">
+            <option value="ALL">All Record Statuses</option>
+            <option value="Clean Record">Clean Record</option>
+            <option value="Allegations/Pending">Allegations / Pending</option>
+            <option value="Dismissed/Acquitted">Dismissed / Acquitted</option>
+            <option value="Convicted">Convicted</option>
+            <option value="Pending Verification">Pending Verification</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label for="sort-by">Sort Order</label>
+          <select id="sort-by" class="field-control" onchange="renderDirectory()">
+            <option value="az">Name (A–Z)</option>
+            <option value="za">Name (Z–A)</option>
+            <option value="age-desc">Age (Oldest First)</option>
+            <option value="age-asc">Age (Youngest First)</option>
+            <option value="position">Position</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <button class="btn btn-secondary" type="button" onclick="resetFilters()">Reset Filters</button>
+        </div>
+      </div>
+
+      <div class="results-meta">
+        <span id="results-count">Showing 18 of 18 profiles</span>
+        <span>Nonpartisan civic reference · Select any card to view full dossier &amp; APA citations</span>
+      </div>
+      <div id="directory-grid" class="card-grid"></div>
+    </section>
+
+    <!-- SECTION 2: COMPARE CANDIDATES -->
+    <section id="view-compare" class="view-section">
+      <div class="dossier-bar">
+        <span class="dossier-pill">Comparative Matrix</span>
+        <span class="dossier-meta">Side-by-Side Candidate Evaluation · Select 2 or 3 Officials</span>
+      </div>
+      <h1 class="hero-title">Compare public records side by side.</h1>
+      <p class="hero-lede">
+        Evaluate educational credentials, political trajectory, enacted legislation, and legal record status across up to three officials simultaneously.
+      </p>
+      <div class="compare-controls">
+        <div class="field-group"><label for="cmp-1">Candidate 1</label><select id="cmp-1" class="field-control" onchange="renderComparison()"></select></div>
+        <div class="field-group"><label for="cmp-2">Candidate 2</label><select id="cmp-2" class="field-control" onchange="renderComparison()"></select></div>
+        <div class="field-group"><label for="cmp-3">Candidate 3 (Optional)</label><select id="cmp-3" class="field-control" onchange="renderComparison()"></select></div>
+      </div>
+      <div id="compare-output" class="compare-grid"></div>
+    </section>
+
+    <!-- SECTION 3: MATCH MY PRIORITIES QUIZ -->
+    <section id="view-quiz" class="view-section">
+      <div class="dossier-bar">
+        <span class="dossier-pill">Voter Alignment Tool</span>
+        <span class="dossier-meta">4 Policy Questions · Mapped to Documented Legislative &amp; Executive Records</span>
+      </div>
+      <h1 class="hero-title">Match my policy priorities.</h1>
+      <p class="hero-lede">
+        Select the policy areas that matter most to you. Matches are calculated strictly from documented bills, laws, and public programs—never party slogans.
+      </p>
+      <div class="quiz-layout">
+        <div class="quiz-card">
+          <div class="quiz-q">
+            <h3>1. Which economic and livelihood priority should come first?</h3>
+            <div class="quiz-options" data-q="q1">
+              <button type="button" class="quiz-opt" data-val="labor" onclick="selectQuiz('q1','labor',this)">OFW protection, wages &amp; worker welfare</button>
+              <button type="button" class="quiz-opt" data-val="agri" onclick="selectQuiz('q1','agri',this)">Agriculture, food security &amp; local farmers</button>
+              <button type="button" class="quiz-opt" data-val="infra" onclick="selectQuiz('q1','infra',this)">National infrastructure, industry &amp; energy</button>
+            </div>
+          </div>
+          <div class="quiz-q">
+            <h3>2. What social protection issue do you prioritize?</h3>
+            <div class="quiz-options" data-q="q2">
+              <button type="button" class="quiz-opt" data-val="health" onclick="selectQuiz('q2','health',this)">Mental health, maternity &amp; community healthcare</button>
+              <button type="button" class="quiz-opt" data-val="rights" onclick="selectQuiz('q2','rights',this)">Human rights, free legal aid &amp; anti-abuse laws</button>
+              <button type="button" class="quiz-opt" data-val="housing" onclick="selectQuiz('q2','housing',this)">Urban housing, poverty relief &amp; local aid</button>
+            </div>
+          </div>
+          <div class="quiz-q">
+            <h3>3. Which education and youth reform matters most?</h3>
+            <div class="quiz-options" data-q="q3">
+              <button type="button" class="quiz-opt" data-val="tuition" onclick="selectQuiz('q3','tuition',this)">Free college tuition, ALS &amp; teacher support</button>
+              <button type="button" class="quiz-opt" data-val="scholar" onclick="selectQuiz('q3','scholar',this)">Top-graduate scholarships &amp; digital access</button>
+              <button type="button" class="quiz-opt" data-val="culture" onclick="selectQuiz('q3','culture',this)">Climate education, heritage &amp; youth protection</button>
+            </div>
+          </div>
+          <div class="quiz-q">
+            <h3>4. What governance standard do you weigh heaviest?</h3>
+            <div class="quiz-options" data-q="q4">
+              <button type="button" class="quiz-opt" data-val="clean" onclick="selectQuiz('q4','clean',this)">Clean record with zero corruption convictions</button>
+              <button type="button" class="quiz-opt" data-val="transparency" onclick="selectQuiz('q4','transparency',this)">Budget transparency, anti-red tape &amp; audits</button>
+              <button type="button" class="quiz-opt" data-val="experience" onclick="selectQuiz('q4','experience',this)">Extensive legislative or executive track record</button>
+            </div>
+          </div>
+          <div style="display:flex; gap:var(--space-sm); flex-wrap:wrap;">
+            <button type="button" class="btn btn-primary" onclick="computeQuizMatches()">Calculate Policy Matches</button>
+            <button type="button" class="btn btn-secondary" onclick="resetQuiz()">Clear Answers</button>
+          </div>
+          <p id="quiz-status-msg" style="margin:var(--space-sm) 0 0 0; font-size:0.88rem; color:var(--secondary);"></p>
+        </div>
+        <div class="quiz-card">
+          <div class="dossier-bar">
+            <span class="dossier-pill">Top Alignments</span>
+            <span class="dossier-meta">Based on Enacted Laws &amp; Verified Initiatives</span>
+          </div>
+          <div id="quiz-results">
+            <p style="color:var(--on-surface-variant); margin:0;">
+              Select options for all four questions on the left and click <strong>Calculate Policy Matches</strong> to view ranked profiles and matching legislative evidence.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: PHILIPPINE ELECTIONS GUIDE -->
+    <section id="view-elections" class="view-section">
+      <div class="dossier-bar">
+        <span class="dossier-pill">Voter Handbook</span>
+        <span class="dossier-meta">COMELEC Procedures · Registration to Proclamation &amp; Violation Reporting</span>
+      </div>
+      <h1 class="hero-title">Your vote. Our tomorrow.</h1>
+      <p class="hero-lede">
+        Ang boto mo, kinabukasan natin. A plain-language, step-by-step guide to Philippine election rules, voter qualifications, precinct verification, ballot secrecy, canvassing, and reporting violations.
+      </p>
+      <div class="elections-layout">
+        <div class="step-nav" id="election-steps-nav" role="tablist" aria-label="Philippine Election Steps"></div>
+        <div class="step-detail-card" id="election-step-detail"></div>
+      </div>
+      <div class="report-grid">
+        <article class="report-card">
+          <span class="kpi-label">Protocol 01</span>
+          <h3 style="margin:var(--space-xs) 0;">Stay Safe</h3>
+          <p style="margin:0; font-size:0.9rem; color:var(--on-surface-variant);">Do not confront people if doing so may place you or others at physical risk near a polling precinct.</p>
+        </article>
+        <article class="report-card">
+          <span class="kpi-label">Protocol 02</span>
+          <h3 style="margin:var(--space-xs) 0;">Record Details</h3>
+          <p style="margin:0; font-size:0.9rem; color:var(--on-surface-variant);">Note the exact place, time, precinct number, people involved, and observed acts while respecting ballot secrecy rules.</p>
+        </article>
+        <article class="report-card">
+          <span class="kpi-label">Protocol 03</span>
+          <h3 style="margin:var(--space-xs) 0;">Use Official Channels</h3>
+          <p style="margin:0; font-size:0.9rem; color:var(--on-surface-variant);">Report vote-buying, intimidation, or tampering to COMELEC election officers, authorized desks, law enforcement, or accredited legal groups.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- SECTION 5: AI CIVIC ASSISTANT -->
+    <section id="view-assistant" class="view-section">
+      <div class="dossier-bar">
+        <span class="dossier-pill">Interactive Research Tool</span>
+        <span class="dossier-meta">Unbiased Civic AI Advisor · 18 Profiles, Policy Concepts &amp; Voting Rules</span>
+      </div>
+      <h1 class="hero-title">Sinyasat Civic Assistant</h1>
+      <p class="hero-lede">
+        Ask about any of the 18 indexed politicians, explore Philippine policy concepts (such as 4Ps, SUC Free Tuition, PDAF, COA disallowances, or anti-death penalty advocacy), or review voting procedures.
+      </p>
+      <div class="ai-workspace">
+        <aside class="ai-sidebar">
+          <span class="kpi-label">Suggested Queries</span>
+          <button type="button" class="prompt-chip" onclick="askAssistant('What is the anti-death penalty stance?')">What is the anti-death penalty stance?</button>
+          <button type="button" class="prompt-chip" onclick="askAssistant('What is 4Ps and who sponsored RA 11310?')">What is 4Ps (RA 11310)?</button>
+          <button type="button" class="prompt-chip" onclick="askAssistant('What is a COA Notice of Disallowance?')">What is a COA Notice of Disallowance?</button>
+          <button type="button" class="prompt-chip" onclick="askAssistant('What is SUC Free Tuition RA 10931?')">What is SUC Free Tuition (RA 10931)?</button>
+          <button type="button" class="prompt-chip" onclick="askAssistant('What is PDAF / Pork Barrel?')">What is PDAF / Pork Barrel?</button>
+          <button type="button" class="prompt-chip" onclick="askAssistant('Summarize Raffy Tulfo legal cases and committees')">Summarize Raffy Tulfo's record</button>
+          <button type="button" class="prompt-chip" onclick="askAssistant('Compare Leni Robredo and Sara Duterte')">Compare Leni Robredo &amp; Sara Duterte</button>
+          <button type="button" class="prompt-chip" onclick="askAssistant('Tell me about Rodrigo Duterte')">Test boundary: Rodrigo Duterte</button>
+        </aside>
+        <div class="ai-chat-panel">
+          <div id="ai-messages" class="ai-messages" aria-live="polite"></div>
+          <div class="ai-input-row">
+            <div class="field-group" style="flex:1 1 auto;">
+              <label for="ai-query-input">Ask a civic, policy, or candidate question</label>
+              <input id="ai-query-input" class="field-control" type="text" placeholder="Type a politician name, policy concept, or voting question..." onkeydown="if(event.key==='Enter'){submitAssistantQuery('main');}">
+            </div>
+            <button type="button" class="btn btn-primary" onclick="submitAssistantQuery('main')">Ask Assistant</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: ABOUT & TEAM -->
+    <section id="view-about" class="view-section">
+      <div class="dossier-bar">
+        <span class="dossier-pill">Platform Charter</span>
+        <span class="dossier-meta">About Sinyasat · Vision, Mission &amp; Core Team Overview</span>
+      </div>
+      <h1 class="hero-title">An informed Filipino. A stronger Philippines.</h1>
+      <p class="hero-lede">
+        Sinyasat is a digital electoral information platform designed to enhance the political literacy of Filipino voters by providing accessible, organized, and nonpartisan information on candidate track records and electoral procedures.
+      </p>
+
+      <div class="about-grid">
+        <article class="about-card">
+          <span class="kpi-label">01 / Our Vision</span>
+          <h2>A democracy shaped by informed choices.</h2>
+          <p style="margin:0; color:var(--on-surface-variant);">
+            A democracy shaped by informed choices where every Filipino voter has the confidence and knowledge to critically examine candidate track records, question those in power, and recognize their influence as registered voters.
+          </p>
+        </article>
+        <article class="about-card">
+          <span class="kpi-label">02 / Our Mission</span>
+          <h2>Accessible civic and electoral literacy.</h2>
+          <p style="margin:0; color:var(--on-surface-variant);">
+            Enhance political literacy by consolidating accessible, nonpartisan candidate backgrounds, legislative track records, voter rights, and COMELEC procedures into a single digital platform—with unverified or missing entries transparently marked.
+          </p>
+        </article>
+        <article class="about-card">
+          <span class="kpi-label">03 / Core Team</span>
+          <h2>Informed individuals &amp; first-time voters.</h2>
+          <p style="margin:0; color:var(--on-surface-variant);">
+            Our team—composed of informed individuals and first-time voters—designed a reliable electoral information website that aims to tackle the persistence of uninformed decision-making and biased political resources.
+          </p>
+        </article>
+        <article class="about-card">
+          <span class="kpi-label">04 / Platform Purpose</span>
+          <h2>Built for first-time and experienced voters.</h2>
+          <p style="margin:0; color:var(--on-surface-variant);">
+            Built for both first-time and experienced voters to help them evaluate candidate qualifications, legislative projects, and legal records neutrally before making electoral decisions—encouraging every citizen to approach elections with greater awareness.
+          </p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- PROFILE DOSSIER MODAL -->
+  <div id="profile-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-pol-name" onclick="if(event.target===this){closeModal();}">
+    <div class="modal-dialog">
+      <div class="modal-head">
+        <div class="modal-identity">
+          <div id="modal-portrait" class="portrait-frame portrait-lg"></div>
+          <div>
+            <span id="modal-branch-tag" class="branch-tag"></span>
+            <h2 id="modal-pol-name" class="modal-title"></h2>
+            <p id="modal-pol-pos" class="pol-pos" style="margin-bottom:0.2rem;"></p>
+            <p id="modal-pol-meta" style="margin:0; font-size:0.86rem; color:var(--on-surface-variant);"></p>
+          </div>
+        </div>
+        <button type="button" class="modal-close" aria-label="Close dossier" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-tabs" role="tablist" aria-label="Profile sections">
+        <button type="button" class="modal-tab active" data-mtab="overview" onclick="switchModalTab('overview')">Overview</button>
+        <button type="button" class="modal-tab" data-mtab="education" onclick="switchModalTab('education')">Education</button>
+        <button type="button" class="modal-tab" data-mtab="career" onclick="switchModalTab('career')">Political Career</button>
+        <button type="button" class="modal-tab" data-mtab="projects" onclick="switchModalTab('projects')">Projects &amp; Accomplishments</button>
+        <button type="button" class="modal-tab" data-mtab="record" onclick="switchModalTab('record')">Public Record</button>
+        <button type="button" class="modal-tab" data-mtab="sources" onclick="switchModalTab('sources')">Sources</button>
+      </div>
+      <div id="modal-tab-body" class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- PERSISTENT FLOATING AI BUTTON & QUICK DRAWER -->
+  <button type="button" class="floating-ai-btn" aria-label="Open Sinyasat Civic AI Assistant" onclick="toggleQuickDrawer()">
+    <span>AI</span>
+    <span class="floating-ai-label">Civic</span>
+  </button>
+
+  <div id="quick-drawer" class="quick-drawer" role="region" aria-label="Quick Civic AI Drawer">
+    <div class="quick-drawer-head">
+      <div>
+        <strong style="font-family:var(--font-headline); font-size:1rem;">Sinyasat Civic AI</strong>
+        <span style="display:block; font-family:var(--font-label); font-size:0.68rem; color:var(--secondary);">UNBIASED CIVIC ADVISOR</span>
+      </div>
+      <div style="display:flex; gap:var(--space-xs);">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="toggleQuickDrawer(); switchView('assistant');">Full View</button>
+        <button type="button" class="btn btn-secondary btn-sm" aria-label="Close quick drawer" onclick="toggleQuickDrawer()">✕</button>
+      </div>
+    </div>
+    <div class="quick-drawer-body">
+      <div id="quick-drawer-msgs" class="quick-drawer-msgs"></div>
+      <div style="display:flex; gap:var(--space-xs); align-items:end;">
+        <div class="field-group" style="flex:1 1 auto;">
+          <label for="quick-ai-input">Ask a civic question</label>
+          <input id="quick-ai-input" class="field-control" type="text" placeholder="Ask about a profile, policy, or voting..." onkeydown="if(event.key==='Enter'){submitAssistantQuery('drawer');}">
+        </div>
+        <button type="button" class="btn btn-primary" onclick="submitAssistantQuery('drawer')">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <api-shim></api-shim>
+  <script>
+    const INITIAL_GREETING = `Hello! Welcome to Sinyasat's Civic AI Assistant. I am an unbiased civic advisor ready to help you explore Philippine political profiles, legislative records, policy concepts, and voting procedures. How can I assist your civic learning today?`;
+    const OUT_OF_DB_RESPONSE = `I apologize, but that politician is not currently listed in the Sinyasat database. I can only provide factual information regarding the 18 public officials and election guidelines documented on this platform.`;
+
+    const POLITICIANS = [
+      {
+        slug: `ferdinand-marcos-jr`,
+        name: `Ferdinand R. Marcos Jr.`,
+        nickname: `BBM`,
+        age: 69,
+        ageLabel: `69 years old (Born September 13, 1957)`,
+        birthInfo: `Batac, Ilocos Norte`,
+        branch: `Executive`,
+        position: `17th President of the Republic of the Philippines`,
+        committees: `Head of State and Chief Executive (2022–Present)`,
+        bio: `Born in Batac, Ilocos Norte, Ferdinand "Bongbong" R. Marcos Jr. is the only son of late President Ferdinand E. Marcos Sr. and former First Lady Imelda Romualdez Marcos. He served as Governor of Ilocos Norte, Representative, and Senator prior to winning the 2022 presidency.`,
+        recordStatus: `Allegations/Pending`,
+        recordTags: [`Allegations/Pending`],
+        tags: [`infra`, `experience`, `transparency`],
+        avatar: { skin: `#D8A988`, hair: `#2B2E34`, style: `sidepart`, glasses: false, attire: `barong`, tie: `#3D5A78` },
+        education: [
+          { year: `1962–1972`, label: `Kindergarten at ITEC Quezon City; Preparatory & Grade School at La Salle Green Hills` },
+          { year: `1970–1974`, label: `Secondary Education at Worth School, West Sussex, England` },
+          { year: `1975–1978`, label: `University of Oxford, England — Special Diploma in Social Studies (not a bachelor's degree)` },
+          { year: `1979–1981`, label: `Wharton School of Business, University of Pennsylvania — Graduate coursework; no degree stated in source` }
+        ],
+        career: [
+          { year: `1983–1986; 1998–2007`, label: `Governor of Ilocos Norte` },
+          { year: `1992–1995; 2007–2010`, label: `Member of the House of Representatives` },
+          { year: `2010–2016`, label: `Senator of the Philippines` },
+          { year: `2016`, label: `Vice-Presidential Bid — Lost to Leni Robredo` },
+          { year: `2022–Present`, label: `Presidential Bid — Won; 17th President of the Philippines` }
+        ],
+        projects: [
+          { title: `Build Better More (BBM) Infrastructure Program`, date: `2022–2028`, desc: `Flagship ₱9-trillion infrastructure program spanning 194 projects across public transport, power, health, agriculture, and digital connectivity.`, involvement: `Flagship executive infrastructure program of the Marcos administration.`, outcome: `Ongoing multi-year implementation.` },
+          { title: `R.A. No. 12120 — Philippine Natural Gas Industry Development Act`, date: `Enacted`, desc: `Promotes the development of the domestic natural gas industry for energy security.`, involvement: `Signed into law during his presidency.`, outcome: `Enacted as Republic Act No. 12120.` },
+          { title: `R.A. No. 12180 — PHIVOLCS Modernization Act`, date: `Enacted`, desc: `Modernizes the Philippine Institute of Volcanology and Seismology seismic and volcanic monitoring networks.`, involvement: `Enacted under the Marcos administration.`, outcome: `Enacted as Republic Act No. 12180.` },
+          { title: `R.A. No. 12316 & R.A. No. 12321 (Excise Tax Relief & GIDA Schools)`, date: `Enacted`, desc: `Authorizes suspension/reduction of petroleum excise tax and establishes Last Mile & GIDA Schools Program.`, involvement: `Signed into law.`, outcome: `Enacted Republic Acts 12316 and 12321.` },
+          { title: `E-Governance Act, VIP Act, CDC Act & Department of Water Resources Act`, date: `Legislative Priorities`, desc: `Initiatives on government digitization, Virology & Vaccine Institute, Centers for Disease Prevention and Control, PIFITA, Valuation Reform, and water governance.`, involvement: `Administration priority measures.`, outcome: `Tracks across House Bills 328, 666, 4660 and enacted/priority bills.` }
+        ],
+        records: [
+          { title: `Pork Barrel Scam Plunder & Graft Complaint (2011–2013; filed 2016)`, status: `Not Convicted`, detail: `Complaint filed before the Office of the Ombudsman by youth alliance iBalik ang Bilyones ng Mamamayan (iBBM) against Marcos Jr., Janet Lim-Napoles, and consultant Catherine Mae Santos. Status: Not convicted.` },
+          { title: `2025 GAA Budget Insertion Allegations (Late 2025 / Early 2026)`, status: `Not Convicted`, detail: `Former lawmaker Zaldy Co alleged illicit ₱100B project insertions into the 2025 GAA and claimed personal receipt of ₱25B. Status: Allegation; not convicted.` },
+          { title: `Flood Control Projects Controversy (2025–2026)`, status: `Not Established`, detail: `Faces questions regarding oversight and possible knowledge of misused flood control funds; personal involvement has not been legally established. Status: Not convicted.` }
+        ],
+        apaCitations: [
+          `Marcos, F. R., Jr. (n.d.). About President Bongbong Marcos. Official Website of President Ferdinand R. Marcos Jr. pbbm.com.ph/president-bongbong-marcos/`,
+          `Sinyasat Electoral Research Compilation. (2026). Sam's List of Politicians: Ferdinand R. Marcos Jr. [Research Dossier, MIL PBA_FINALS.pdf].`
+        ]
+      },
+      {
+        slug: `leni-robredo`,
+        name: `Leni Robredo`,
+        nickname: `Atty. Leni`,
+        age: 61,
+        ageLabel: `61 years old (Born April 23, 1965)`,
+        birthInfo: `Naga City, Camarines Sur`,
+        branch: `Local Government`,
+        position: `18th Mayor of Naga City (Former 14th Vice President)`,
+        committees: `Chair/Founder of Angat Pinas, Inc.; Former Vice President (2016–2022)`,
+        bio: `Maria Leonor "Leni" Gerona Robredo is a lawyer and public servant born in Naga City. She represented Camarines Sur in Congress, served as the 14th Vice President of the Philippines (2016–2022), founded the NGO Angat Pinas, Inc., and was elected Mayor of Naga City in 2025.`,
+        recordStatus: `Clean Record`,
+        recordTags: [`Clean Record`],
+        tags: [`clean`, `health`, `housing`, `transparency`],
+        avatar: { skin: `#DFB193`, hair: `#242224`, style: `bob`, glasses: false, attire: `blazer`, tie: `#7895B2` },
+        education: [
+          { year: `1978–1982`, label: `Elementary and High School at Universidad de Sta. Isabel, Naga City` },
+          { year: `1986`, label: `Bachelor of Arts in Economics, University of the Philippines Diliman` },
+          { year: `1992`, label: `Juris Doctor / Bachelor of Laws, University of Nueva Caceres, Naga City` },
+          { year: `1997`, label: `Passed the Philippine Bar Examination` }
+        ],
+        career: [
+          { year: `2013–2016`, label: `Representative, Camarines Sur 3rd District` },
+          { year: `2016–2022`, label: `14th Vice President of the Philippines` },
+          { year: `2022`, label: `Presidential Candidate — Lost to Ferdinand R. Marcos Jr.` },
+          { year: `2025–Present`, label: `18th Mayor of Naga City` }
+        ],
+        projects: [
+          { title: `Angat Buhay Flagship Anti-Poverty Program & NGO`, date: `2016–Present`, desc: `Mobilized private-sector and volunteer partnerships to assist marginalized communities; transitioned into NGO Angat Pinas, Inc. on July 1, 2022.`, involvement: `Initiated and led through the OVP and subsequently as NGO chairperson.`, outcome: `Ongoing volunteer-driven education, health, and disaster programs.` },
+          { title: `COVID-19 Response: Bayanihan E-Konsulta, Swab Cab & Vaccine Express`, date: `2020–2022`, desc: `Free teleconsultation service assisting tens of thousands of patients, plus mobile COVID-19 testing and vaccination units with LGUs.`, involvement: `Directed by the Office of the Vice President with volunteer medical partners.`, outcome: `Expanded pandemic access to underserved communities.` },
+          { title: `Bayanihan E-Skwela & Community Learning Hubs`, date: `2020–2022`, desc: `Provided educational gadgets, instructional videos, and local study hubs during remote learning.`, involvement: `OVP education pandemic program.`, outcome: `Supported students without home study resources.` },
+          { title: `House Bill No. 19 — Full Disclosure Act of 2013 & HB 5829`, date: `2013–2016`, desc: `Proposed mandatory full fiscal disclosure across national agencies, GOCCs, and LGUs, alongside Breast Cancer Awareness Month legislation.`, involvement: `Authored during her term in the House of Representatives.`, outcome: `Filed legislative transparency and healthcare advocacy bills.` }
+        ],
+        records: [
+          { title: `Corruption & Legal Standing`, status: `Clean Record`, detail: `The supplied research compilation states that current Naga City Mayor Leni Robredo has not been convicted of or formally charged with any corruption cases.` }
+        ],
+        apaCitations: [
+          `Pollicar, Z., Flores, M., Ma, S., Militante, S., & Barreno, E. (2025). Angat Buhay — Home. Angat Pinas, Inc. angatbuhay.ph/`,
+          `De La Salle University–Dasmariñas. (n.d.). Board of Trustees: Atty. Leni Robredo. dlsud.edu.ph/board-of-trustees/atty-leni-robredo`,
+          `Sinyasat Electoral Research Compilation. (2026). Sam's List of Politicians: Leni Robredo [Research Dossier, MIL PBA_FINALS.pdf].`
+        ]
+      },
+      {
+        slug: `sara-duterte`,
+        name: `Sara Zimmerman Duterte`,
+        nickname: `Inday Sara`,
+        age: 48,
+        ageLabel: `48 years old (Born May 31, 1978)`,
+        birthInfo: `Davao City`,
+        branch: `Executive`,
+        position: `15th Vice President of the Philippines`,
+        committees: `Former Secretary of Education (2022–2024); Former Mayor of Davao City`,
+        bio: `Born in Davao City, Sara Zimmerman Duterte is a lawyer and politician serving as the 15th Vice President of the Philippines. She was the first woman elected Mayor of Davao City and one of the youngest to hold the office.`,
+        recordStatus: `Allegations/Pending`,
+        recordTags: [`Allegations/Pending`],
+        tags: [`housing`, `culture`, `experience`],
+        avatar: { skin: `#DFB496`, hair: `#222021`, style: `tied`, glasses: false, attire: `blazer`, tie: `#255E44` },
+        education: [
+          { year: `Elementary & High School`, label: `Philippine Women's College of Davao (years not detailed in source)` },
+          { year: `1999`, label: `Bachelor of Science in Respiratory Therapy, San Pedro College, Davao City` },
+          { year: `2005`, label: `Bachelor of Laws, San Sebastian College–Recoletos (after earlier studies at San Beda College)` },
+          { year: `2005`, label: `Passed the Philippine Bar Examination` }
+        ],
+        career: [
+          { year: `2007–2010`, label: `Vice Mayor of Davao City` },
+          { year: `2010–2013; 2016–2022`, label: `Mayor of Davao City` },
+          { year: `2022–Present`, label: `15th Vice President of the Philippines` }
+        ],
+        projects: [
+          { title: `Libreng Sakay Program`, date: `2022–Present`, desc: `Provides free bus rides to commuters during peak hours across Metro Manila, Davao City, Cebu, and Bacolod.`, involvement: `Office of the Vice President commuter relief program.`, outcome: `Reduced daily transit expenses for urban commuters.` },
+          { title: `PagbaBAGo: A Million Learners and Trees Campaign`, date: `2022–Present`, desc: `Distributes school supplies, bags, and dental kits to students while promoting tree planting.`, involvement: `OVP education and environmental campaign.`, outcome: `Ongoing learner distribution and planting drives.` },
+          { title: `Mag Negosyo Ta 'Day`, date: `2022–Present`, desc: `Provides financial assistance and startup capital to women, community groups, and micro-entrepreneurs.`, involvement: `OVP livelihood support initiative.`, outcome: `Supports small enterprise formation.` },
+          { title: `R.I.I.C.E., Disaster Operations Center & OVP Satellite Offices`, date: `2022–Present`, desc: `Regional satellite offices (Dagupan, Cebu, Tacloban, Zamboanga, Davao, Tandag) and relief/Kalusugan Food Trucks.`, involvement: `Expanded OVP regional service delivery.`, outcome: `Provides medical, burial, and calamity assistance.` }
+        ],
+        records: [
+          { title: `COA Notice of Disallowance (2022–2026)`, status: `Final Audit Disallowance`, detail: `The Commission on Audit affirmed with finality a notice of disallowance requiring VP Sara Duterte and two OVP officials to return ₱73.287 million in confidential funds. Status: Administrative audit disallowance; not a criminal conviction.` },
+          { title: `Confidential & Intelligence Funds Controversy (2022–2026)`, status: `Under Scrutiny`, detail: `Centers on ₱612.5M in CIF allocated to OVP and DepEd during her tenure, including ₱125M spent over 11 days in December 2022. Status: Not convicted.` },
+          { title: `Senate Impeachment Trial (2026)`, status: `Ongoing`, detail: `Faces an impeachment trial before the Senate citing allegations of unexplained wealth, misuse of public funds, SALN violations, bribery, and grave threats. Status: Ongoing constitutional proceeding.` }
+        ],
+        apaCitations: [
+          `Office of the Vice President of the Republic of the Philippines. (n.d.). The Vice President. ovp.gov.ph`,
+          `Tan, Y. (2025, May 12). Philippines election: Who is Sara Duterte? BBC News. bbc.com/news/articles/cp8dnre9901o`,
+          `Sinyasat Electoral Research Compilation. (2026). Sam's List of Politicians: Sara Zimmerman Duterte [Research Dossier, MIL PBA_FINALS.pdf].`
+        ]
+      },
+      {
+        slug: `isko-moreno`,
+        name: `Isko Moreno Domagoso`,
+        nickname: `Yorme Isko`,
+        age: 52,
+        ageLabel: `52 years old (Born October 24, 1974)`,
+        birthInfo: `Tondo, Manila`,
+        branch: `Local Government`,
+        position: `29th Mayor of Manila`,
+        committees: `Former Undersecretary, DSWD (2018); Mayor of Manila (2019–2022; 2025–Present)`,
+        bio: `Francisco "Isko Moreno" Domagoso began in entertainment before serving as Manila City Councilor, Vice Mayor, DSWD Undersecretary, and Mayor of Manila (2019–2022, returning in 2025). He is noted for vertical public housing and hospital modernization projects.`,
+        recordStatus: `Allegations/Pending`,
+        recordTags: [`Allegations/Pending`, `Dismissed/Acquitted`],
+        tags: [`housing`, `health`, `experience`],
+        avatar: { skin: `#D29F7C`, hair: `#1F2024`, style: `pompadour`, glasses: false, attire: `suit`, tie: `#1D4488` },
+        education: [
+          { year: `1988–1992`, label: `Rosauro Almario Elementary School & Tondo High School, Manila` },
+          { year: `2003`, label: `Bachelor of Science in Business Administration, International Academy of Management and Economics` },
+          { year: `Unstated years`, label: `Public Administration studies, Pamantasan ng Lungsod ng Maynila (PLM)` },
+          { year: `2014`, label: `Doctor of Humanities in Community Development (Honoris Causa), PLM` }
+        ],
+        career: [
+          { year: `1998–2007`, label: `City Councilor of Manila` },
+          { year: `2007–2016`, label: `Vice Mayor of Manila` },
+          { year: `2018`, label: `Undersecretary, Department of Social Welfare and Development (DSWD)` },
+          { year: `2019–2022`, label: `Mayor of Manila` },
+          { year: `2022`, label: `Presidential Bid — Finished 4th` },
+          { year: `2025–Present`, label: `29th Mayor of Manila` }
+        ],
+        projects: [
+          { title: `Tondominium I & II & Basecommunity Housing Project`, date: `2020–2021`, desc: `₱1B 15-storey vertical housing in Vitas, Tondo (~336 families) and 229 two-storey homes in Baseco under Ordinance No. 8494.`, involvement: `Flagship city housing program during his first mayoral term.`, outcome: `Delivered in-city resettlement units for informal settler families.` },
+          { title: `Bagong Ospital ng Maynila & COVID-19 Field Hospital`, date: `2020–2022`, desc: `₱2.3B 10-storey, 384-bed public hospital with 12 ICUs plus a 344-bed COVID-19 field hospital near Quirino Grandstand.`, involvement: `City government healthcare infrastructure buildout.`, outcome: `Expanded Manila's public medical and ICU capacity.` },
+          { title: `Go! Manila Mobile App & Manila Zoo Rehabilitation`, date: `2019–2022`, desc: `Digital e-services platform reducing physical queues, and ₱1.7B ecological rehabilitation of Manila Zoo with sewage treatment.`, involvement: `City digital governance and urban renewal programs.`, outcome: `Modernized municipal transactions and public facilities.` },
+          { title: `Ordinance No. 8488 — Anti-Elderly Abuse Ordinance`, date: `Local Legislation`, desc: `Established Manila policy penalizing elderly abuse, exploitation, and neglect.`, involvement: `City ordinance supported during his local administration.`, outcome: `Strengthened senior citizen protections.` }
+        ],
+        records: [
+          { title: `Alleged Campaign Finance Overspending (2013; filed 2017)`, status: `Dismissed`, detail: `COMELEC Campaign Finance Office alleged he exceeded the 2013 vice mayoral spending limit by over ₱100,000; Moreno filed an amended report. Status: Dismissed.` },
+          { title: `Real Property Tax Plunder Complaint (2014)`, status: `Not Confirmed`, detail: `Five Manila barangay chairs alleged diversion of ~₱77M in real property taxes to Barangay 128; Moreno stated funds went to Smokey Mountain, Parola, and Baseco. Status: Not confirmed.` },
+          { title: `Ombudsman Graft & Usurpation Complaints (2025)`, status: `Not Confirmed`, detail: `Moreno and 14 Manila officials faced Ombudsman complaints over the removal of Dr. Leilani Lacuna as Liga ng mga Barangay president. Status: Not confirmed.` }
+        ],
+        apaCitations: [
+          `City Government of Manila. (n.d.). City Mayor: Francisco "Isko Moreno" Domagoso. manila.gov.ph/city-mayor/`,
+          `Serbisyo PH. (n.d.). Meet Isko Moreno Domagoso, public servant. serbisyo.ph/philippines/manila/public-servants/isko-moreno-domagoso`,
+          `Sinyasat Electoral Research Compilation. (2026). Sam's List of Politicians: Isko Moreno Domagoso [Research Dossier, MIL PBA_FINALS.pdf].`
+        ]
+      },
+      {
+        slug: `panfilo-lacson`,
+        name: `Panfilo Morena Lacson Sr.`,
+        nickname: `Ping Lacson`,
+        age: 78,
+        ageLabel: `78 years old`,
+        birthInfo: `Imus, Cavite`,
+        branch: `Senate`,
+        position: `Senator of the Philippines (20th Congress)`,
+        committees: `Former Chief of the Philippine National Police (1999); Multi-term Senator`,
+        bio: `Born in Imus, Cavite, Panfilo "Ping" Lacson graduated from the Philippine Military Academy in 1971, rose to become Chief of the Philippine National Police in 1999, and has served multiple terms in the Senate with a focus on budget scrutiny, anti-red tape, and security reform.`,
+        recordStatus: `Dismissed/Acquitted`,
+        recordTags: [`Dismissed/Acquitted`],
+        tags: [`transparency`, `experience`, `infra`],
+        avatar: { skin: `#D6AA8B`, hair: `#8E949B`, style: `short`, glasses: true, attire: `suit`, tie: `#3D5A78` },
+        education: [
+          { year: `1954–1964`, label: `Bayan Luma Elementary School & Imus Institute, Cavite` },
+          { year: `1967–1971`, label: `Bachelor of Science, Philippine Military Academy, Baguio City` },
+          { year: `1995–1996`, label: `Master in Government Management, Pamantasan ng Lungsod ng Maynila` }
+        ],
+        career: [
+          { year: `1999–2001`, label: `Chief, Philippine National Police (PNP)` },
+          { year: `2001–2013; 2016–2022`, label: `Senator of the Philippines` },
+          { year: `2004; 2022`, label: `Presidential Candidate — Finished 3rd (2004) and 5th (2022)` },
+          { year: `2025–Present`, label: `Re-elected Senator of the Philippines (20th Congress)` }
+        ],
+        projects: [
+          { title: `R.A. 11055 — Philippine Identification System Act (PhilSys)`, date: `Enacted 2018`, desc: `Established a unified national ID system to streamline public and financial transactions.`, involvement: `Principal sponsor in the Senate.`, outcome: `Enacted as Republic Act No. 11055.` },
+          { title: `R.A. 9485 — Anti-Red Tape Act of 2007`, date: `Enacted 2007`, desc: `Cuts unnecessary government processing steps, waiting times, and corruption points.`, involvement: `Authored and sponsored in the Senate.`, outcome: `Enacted as Republic Act No. 9485.` },
+          { title: `R.A. 11479 — Anti-Terrorism Act & R.A. 11053 — Anti-Hazing Act`, date: `2018–2020`, desc: `Strengthened national counter-terrorism framework and imposed stricter penalties against hazing.`, involvement: `Principal author/sponsor.`, outcome: `Enacted as RA 11053 and RA 11479.` },
+          { title: `R.A. 10969 (Free Irrigation), AMLA Amendments & AFP Modernization`, date: `2012–2020`, desc: `Free irrigation for small farmers, casino coverage under Anti-Money Laundering laws (RA 10167/10927), and Revised AFP Modernization (RA 10349).`, involvement: `Author and legislative sponsor.`, outcome: `Enacted into law.` }
+        ],
+        records: [
+          { title: `Kuratong Baleleng Rubout Case (1995)`, status: `Dismissed by Supreme Court`, detail: `Implicated while heading Task Force Habagat. The Supreme Court upheld dismissal of murder charges in 2012 (final 2013) for insufficient probable cause. Status: Not convicted.` },
+          { title: `Dacer–Corbito Murder Case (2000–2011)`, status: `Dismissed by Court of Appeals`, detail: `Left the country in Jan 2010 before warrant service; Court of Appeals dismissed charges in Feb 2011 citing witness inconsistencies. Key witness Cezar Mancao II apologized in 2015. Status: Not convicted.` },
+          { title: `Ill-Gotten Wealth Allegations (2001)`, status: `Retracted / Not Confirmed`, detail: `Accusations of foreign bank accounts by Victor Corpus and Ador Mawanay; Mawanay retracted in 2003 and Corpus publicly apologized in 2017.` },
+          { title: `Taguig Flood Control Oversight Filing (2026)`, status: `Complainant / Whistleblower Filing`, detail: `Lacson submitted documentary evidence to the Ombudsman on July 28, 2026 alleging double billing and ghost flood control projects in Taguig involving other officials. Status: Submitted for Ombudsman review.` }
+        ],
+        apaCitations: [
+          `Office of Senator Panfilo Lacson. (n.d.). About Ping Lacson. pinglacson.net/about/`,
+          `Sinyasat Electoral Research Compilation. (2026). Sam's List of Politicians: Panfilo Morena Lacson Sr. [Research Dossier, MIL PBA_FINALS.pdf].`
+        ]
+      },
+      {
+        slug: `kiko-pangilinan`,
+        name: `Francis "Kiko" N. Pangilinan`,
+        nickname: `Kiko Pangilinan`,
+        age: 63,
+        ageLabel: `63 years old`,
+        birthInfo: `Manila`,
+        branch: `Senate`,
+        position: `Senator of the Philippines (20th Congress)`,
+        committees: `Advocate for Agriculture, Food Security & Judicial Reforms`,
+        bio: `Francis "Kiko" Nepomuceno Pangilinan is a lawyer and legislator who started as the youngest elected Quezon City councilor in 1988, entered the Senate in 2001, ran for Vice President in 2022, and returned to the Senate in 2025.`,
+        recordStatus: `Allegations/Pending`,
+        recordTags: [`Allegations/Pending`],
+        tags: [`agri`, `rights`, `tuition`, `clean`],
+        avatar: { skin: `#D9AD8D`, hair: `#282A2F`, style: `sidepart`, glasses: true, attire: `barong`, tie: `#255E44` },
+        education: [
+          { year: `1977–1981`, label: `La Salle Green Hills, Mandaluyong City (Elementary & High School)` },
+          { year: `1986`, label: `B.A. in English (Comparative Literature), University of the Philippines Diliman` },
+          { year: `1993`, label: `Bachelor of Laws (LL.B.), UP College of Law` },
+          { year: `1998`, label: `Master in Public Administration (MPA), Edward S. Mason Fellow, Harvard Kennedy School` }
+        ],
+        career: [
+          { year: `1988`, label: `Youngest Elected City Councilor of Quezon City` },
+          { year: `2001; 2007; 2016`, label: `Elected Senator of the Philippines` },
+          { year: `2022`, label: `Vice-Presidential Candidate — Finished 2nd` },
+          { year: `2025–Present`, label: `Re-elected Senator of the Philippines (20th Congress)` }
+        ],
+        projects: [
+          { title: `Sagip Saka Act (R.A. No. 11321)`, date: `Enacted 2019`, desc: `Allows national and local governments to procure agricultural products directly from accredited farmers and fisherfolk cooperatives.`, involvement: `Principal author and advocate.`, outcome: `Enacted as Republic Act No. 11321.` },
+          { title: `Juvenile Justice and Welfare Act (R.A. No. 9344)`, date: `Enacted 2006`, desc: `Establishes a restorative juvenile justice system focused on child protection and rehabilitation.`, involvement: `Principal legislative author.`, outcome: `Enacted as Republic Act No. 9344.` },
+          { title: `Education, Labor & Digital Laws (RA 10931, RA 11210, RA 10929, RA 9500)`, date: `2008–2019`, desc: `Contributed to Free Higher Education, 105-Day Expanded Maternity Leave, Free Internet in Public Places, and the UP Charter.`, involvement: `Co-author / legislative champion.`, outcome: `Enacted into law.` },
+          { title: `Anti-Death Penalty Advocacy & NFA Transparency`, date: `Ongoing`, desc: `Consistently opposes reimposition of capital punishment; promoted transparent NFA rice bidding reportedly saving ₱6B.`, involvement: `Senate floor advocacy and policy oversight.`, outcome: `Blocked death penalty reinstatement measures.` }
+        ],
+        records: [
+          { title: `Pork Barrel Scam Privilege Speech Mention (2013)`, status: `Not Confirmed`, detail: `Named in a Sept 2013 privilege speech by Sen. Jinggoy Estrada alleging selective scrutiny of Aquino allies. Pangilinan denied wrongdoing; Sharon Cuneta offered ₱10M for proof. Status: Not confirmed.` },
+          { title: `Flood Control Photographic Allegations (June 2026)`, status: `Clarified / Not Accused`, detail: `Photos with individuals linked to Zaldy Co's aviation firm circulated at a June 2026 briefing. Pangilinan threatened slander action; on June 21, 2026, lawyer Levito Baligod clarified Pangilinan was never accused of receiving kickbacks. Status: Not confirmed.` }
+        ],
+        apaCitations: [
+          `Office of Senator Francis Pangilinan. (n.d.). Official profile of Senator Francis "Kiko" Pangilinan. kikopangilinan.com`,
+          `Oliquino, E. (2026, June 16). Kiko hints at slander raps vs Zaldy Co's 'bodyguards' over kickback insinuations. Daily Tribune. tribune.net.ph/2026/06/16/kiko-hints-at-slander-raps-vs-zaldy-cos-bodyguards-over-kickback-insinuations`,
+          `INQUIRER.net. (2025, May 15). VotePH candidate profile: Kiko Pangilinan. inquirer.net/2025-philippine-elections/voteph-candidate-profile/kiko-pangilinan/`
+        ]
+      },
+      {
+        slug: `risa-hontiveros`,
+        name: `Risa Hontiveros`,
+        nickname: `Sen. Risa`,
+        age: 60,
+        ageLabel: `60 years old (Born February 24, 1966)`,
+        birthInfo: `Manila`,
+        branch: `Senate`,
+        position: `Senator, 20th Congress`,
+        committees: `Akbayan Citizens' Action Party Leader; Women, Health & Social Justice Advocate`,
+        bio: `Ana Theresia "Risa" Hontiveros-Baraquel is a legislator, former community organizer, and broadcast journalist. After representing Akbayan in the House (2004–2010), she was elected to the Senate in 2016 and re-elected in 2022, authoring landmark public health and women's protection laws.`,
+        recordStatus: `Clean Record`,
+        recordTags: [`Clean Record`],
+        tags: [`health`, `rights`, `clean`, `culture`],
+        avatar: { skin: `#DFB395`, hair: `#2B2524`, style: `shoulder`, glasses: true, attire: `blazer`, tie: `#B8292F` },
+        education: [
+          { year: `Ended 1979`, label: `Primary School at St. Scholastica's College, Manila` },
+          { year: `1979–1983`, label: `High School at St. Scholastica's College, Manila` },
+          { year: `1983–1987`, label: `B.A. in Social Sciences, Cum Laude, Ateneo de Manila University` },
+          { year: `1987–2004`, label: `Post-Graduate Diploma in Managing Arts Program, Asian Institute of Management` }
+        ],
+        career: [
+          { year: `2004–2010`, label: `Representative, Akbayan Citizens' Action Party (House of Representatives)` },
+          { year: `2016–2022`, label: `Senator of the Philippines (First Term)` },
+          { year: `2022–2028`, label: `Senator of the Philippines (20th Congress)` }
+        ],
+        projects: [
+          { title: `Expanded Maternity Leave Law (R.A. 11210)`, date: `Signed Feb 20, 2019`, desc: `Extends paid maternity leave benefits to 105 days across public, private, and self-employed female workers.`, involvement: `Principal author and sponsor in the Senate.`, outcome: `Enacted as Republic Act No. 11210.` },
+          { title: `Philippine Mental Health Law (R.A. 11036)`, date: `Signed Jun 21, 2018`, desc: `Establishes a national mental health policy guaranteeing accessible, affordable psychiatric and community care.`, involvement: `Principal author and sponsor.`, outcome: `Enacted as Republic Act No. 11036.` },
+          { title: `Safe Spaces Act / Bawal Bastos Law (R.A. 11313)`, date: `Signed Apr 19, 2019`, desc: `Penalizes gender-based sexual harassment in streets, workplaces, schools, and online platforms.`, involvement: `Principal author and sponsor.`, outcome: `Enacted as Republic Act No. 11313.` },
+          { title: `Anti-OSAEC Law (R.A. 11930) & HIV/AIDS Policy Act (R.A. 11166)`, date: `2018–2022`, desc: `Strengthens protection against online sexual abuse/exploitation of children and delivers non-discriminatory HIV services.`, involvement: `Principal author and legislative champion.`, outcome: `Enacted as RA 11166 and RA 11930.` }
+        ],
+        records: [
+          { title: `Legal & Corruption Record`, status: `Clean Record`, detail: `No corruption charges, criminal complaints, or audit disallowances are documented in the supplied research attachment.` }
+        ],
+        apaCitations: [
+          `Sinyasat Electoral Research Compilation. (2026). Bri's List of Politicians: Risa Hontiveros [Research Dossier, MIL PBA_FINALS-2.pdf].`,
+          `Senate of the Philippines. (n.d.). Senator Risa Hontiveros official legislative record.`
+        ]
+      },
+      {
+        slug: `leila-de-lima`,
+        name: `Leila de Lima`,
+        nickname: `Atty. Leila`,
+        age: 67,
+        ageLabel: `67 years old (Born August 27, 1959)`,
+        birthInfo: `Iriga City, Camarines Sur`,
+        branch: `House of Representatives`,
+        position: `Party-list Representative, 20th Congress`,
+        committees: `Former Senator (2016–2022); Former DOJ Secretary & CHR Chairperson`,
+        bio: `Leila Norma Eulalia Josefa Magistrado de Lima is a lawyer, educator, and human rights advocate from Iriga City. She served as Chairperson of the Commission on Human Rights, Secretary of Justice, Senator (2016–2022), and was elected Party-list Representative in 2025.`,
+        recordStatus: `Allegations/Pending`,
+        recordTags: [`Allegations/Pending`],
+        tags: [`rights`, `housing`, `experience`],
+        avatar: { skin: `#D6A685`, hair: `#282422`, style: `bob`, glasses: true, attire: `blazer`, tie: `#7D5211` },
+        education: [
+          { year: `1965–1976`, label: `La Consolacion Academy, Valedictorian (Primary and High School)` },
+          { year: `1976–1980`, label: `B.A. in Political Science, De La Salle University Manila (source notes confirmation check)` },
+          { year: `1980–1985`, label: `Bachelor of Laws, San Beda College Manila — Salutatorian; Editor-in-Chief, San Beda Journal` },
+          { year: `1985`, label: `Placed 8th in the Philippine Bar Examination (86.26% rating)` }
+        ],
+        career: [
+          { year: `2008–2010`, label: `Chairperson, Commission on Human Rights (CHR)` },
+          { year: `2010–2015`, label: `Secretary of Justice` },
+          { year: `2016–2022`, label: `Senator of the Philippines` },
+          { year: `2025–Present`, label: `Party-list Representative, 20th Congress` }
+        ],
+        projects: [
+          { title: `Pantawid Pamilyang Pilipino Program (4Ps) Act — R.A. 11310`, date: `Signed Apr 17, 2019`, desc: `Institutionalizes conditional cash transfer grants to poor Filipino households conditioned on health, nutrition, and school attendance.`, involvement: `Principal author/champion in the Senate.`, outcome: `Enacted as Republic Act No. 11310.` },
+          { title: `Commission on Human Rights & Justice Advocacy`, date: `2008–Present`, desc: `Led human rights investigations, civil liberties defense, and rule-of-law reforms.`, involvement: `CHR Chair, DOJ Secretary, and legislator.`, outcome: `Documented human rights institutional leadership.` }
+        ],
+        records: [
+          { title: `2017 Drug Trade Conspiracy & Extortion Cases (Crim. Cases 17-165, 17-166, 17-167)`, status: `Documented Filings`, detail: `Accused in 2017 of scheming with former BuCor OIC Rafael Ragos, exerting influence on inmate Peter Co, and tolerating illegal drug trade. Note: Final case dispositions/acquittals are not fully documented in the supplied attachment, so this dossier reports only what is in the source without inferring beyond it.` }
+        ],
+        apaCitations: [
+          `Sinyasat Electoral Research Compilation. (2026). Bri's List of Politicians: Leila de Lima [Research Dossier, MIL PBA_FINALS-2.pdf].`
+        ]
+      },
+      {
+        slug: `chel-diokno`,
+        name: `Chel Diokno`,
+        nickname: `Atty. Chel`,
+        age: 65,
+        ageLabel: `65 years old (Born February 23, 1961)`,
+        birthInfo: `Manila`,
+        branch: `House of Representatives`,
+        position: `Party-list Representative, 20th Congress (Akbayan 1st Nominee)`,
+        committees: `Human Rights Lawyer; Free Legal Assistance Group (FLAG)`,
+        bio: `Jose Manuel "Chel" Tadeo Icasiano Diokno is a human rights lawyer, legal educator, and legislator. As first nominee of the Akbayan party-list—which topped the 2025 party-list race—he brings decades of civil liberties advocacy with FLAG into the 20th Congress.`,
+        recordStatus: `Clean Record`,
+        recordTags: [`Clean Record`],
+        tags: [`rights`, `clean`, `scholar`],
+        avatar: { skin: `#DCB091`, hair: `#3D4148`, style: `sidepart`, glasses: true, attire: `barong`, tie: `#3D5A78` },
+        education: [
+          { year: `Primary & High School`, label: `La Salle Green Hills, Mandaluyong City` },
+          { year: `1982`, label: `Bachelor of Arts in Philosophy, University of the Philippines Diliman` },
+          { year: `1986`, label: `Juris Doctor, Northern Illinois University College of Law, USA — Magna Cum Laude` }
+        ],
+        career: [
+          { year: `Prior to 2024`, label: `Chairperson, Free Legal Assistance Group (FLAG) & Law Dean` },
+          { year: `2025–Present`, label: `First Nominee & Representative, Akbayan Party-list (20th Congress)` }
+        ],
+        projects: [
+          { title: `Free Legal Helpdesk & "Kuya Chel" Chatbot`, date: `Digital Civic Initiative`, desc: `Online helpdesk providing accessible legal information and preliminary guidance to ordinary Filipino citizens.`, involvement: `Founder and public legal-education lead.`, outcome: `Expanded free preliminary legal literacy online.` },
+          { title: `Free Legal Assistance Group (FLAG)`, date: `Multi-decade`, desc: `One of the Philippines' oldest nationwide human rights lawyer networks defending civil liberties.`, involvement: `Longtime legal advocate and leader.`, outcome: `Provided pro bono defense in human rights cases.` },
+          { title: `Abolition / Opposition to Death Penalty`, date: `Ongoing`, desc: `Strongly opposes reimposing capital punishment, advocating judicial and systemic reform instead.`, involvement: `Public legal and legislative advocacy.`, outcome: `Core human rights policy platform.` }
+        ],
+        records: [
+          { title: `Legal & Corruption Record`, status: `Clean Record`, detail: `No corruption charges, criminal complaints, or legal proceedings are documented in the supplied research attachment.` }
+        ],
+        apaCitations: [
+          `Sinyasat Electoral Research Compilation. (2026). Bri's List of Politicians: Chel Diokno [Research Dossier, MIL PBA_FINALS-2.pdf].`
+        ]
+      },
+      {
+        slug: `win-gatchalian`,
+        name: `Win Gatchalian`,
+        nickname: `Sen. Win`,
+        age: 52,
+        ageLabel: `52 years old (Born April 17, 1974)`,
+        birthInfo: `Valenzuela City`,
+        branch: `Senate`,
+        position: `Senator, 20th Congress (34th Senate President, 2026)`,
+        committees: `Education, Energy & Ways and Means Policy`,
+        bio: `Sherwin "Win" Ting Gatchalian worked in corporate management before serving as Representative and three-term Mayor of Valenzuela City. Elected to the Senate in 2016 and re-elected in 2022, the source notes his service as 34th Senate President in 2026.`,
+        recordStatus: `Clean Record`,
+        recordTags: [`Clean Record`],
+        tags: [`tuition`, `infra`, `clean`, `experience`],
+        avatar: { skin: `#E4BE9F`, hair: `#1D1F24`, style: `short`, glasses: true, attire: `suit`, tie: `#1D4488` },
+        education: [
+          { year: `1982–1991`, label: `Grace Christian High School, Quezon City (Primary and High School)` },
+          { year: `1991–1995`, label: `B.S. in Finance and Operations Management, Boston University, USA` },
+          { year: `1995–1996`, label: `Advanced Language Course, Beijing Language and Culture University, China` }
+        ],
+        career: [
+          { year: `2001–2004; 2013–2016`, label: `Representative, Valenzuela City 1st District` },
+          { year: `2004–2013`, label: `Mayor of Valenzuela City (Re-elected)` },
+          { year: `2016; 2022`, label: `Elected Senator of the Philippines` },
+          { year: `2026`, label: `34th President of the Senate of the Philippines` }
+        ],
+        projects: [
+          { title: `Universal Access to Quality Tertiary Education Act (R.A. 10931)`, date: `Signed Aug 3, 2017`, desc: `Provides free tuition and miscellaneous fees for students enrolled in state universities and colleges (SUCs).`, involvement: `Principal legislative sponsor/co-author.`, outcome: `Enacted as Republic Act No. 10931.` },
+          { title: `Alternative Learning System (ALS) Act (R.A. 11510)`, date: `Signed Dec 23, 2020`, desc: `Strengthens non-formal education pathways for out-of-school youth and adult learners.`, involvement: `Principal legislative sponsor.`, outcome: `Enacted as Republic Act No. 11510.` },
+          { title: `Energy Efficiency (R.A. 11285), EV Industry (R.A. 11697) & Energy Policy Institute (R.A. 11572)`, date: `2019–2022`, desc: `Establishes energy efficiency standards, electric vehicle incentives, and the Philippine Energy Research and Policy Institute.`, involvement: `Senate Energy Committee authorship.`, outcome: `Enacted into law.` },
+          { title: `R.A. 11548 (SSS Calamity Deferment) & R.A. 11549 (Uniformed Height Act)`, date: `Signed May 26, 2021`, desc: `Allows deferment of SSS contribution hikes during calamities and lowers height requirements for PNP, BFP, BJMP, and BuCor.`, involvement: `Legislative author/sponsor.`, outcome: `Enacted into law.` }
+        ],
+        records: [
+          { title: `Legal & Corruption Record`, status: `Clean Record`, detail: `No corruption charges, criminal complaints, or legal proceedings are documented in the supplied research attachment.` }
+        ],
+        apaCitations: [
+          `Sinyasat Electoral Research Compilation. (2026). Bri's List of Politicians: Win Gatchalian [Research Dossier, MIL PBA_FINALS-2.pdf].`
+        ]
+      },
+      {
+        slug: `robin-padilla`,
+        name: `Robin Padilla`,
+        nickname: `Sen. Robin`,
+        age: null,
+        ageLabel: `Age pending verification in source`,
+        birthInfo: `Pending verification`,
+        branch: `Senate`,
+        position: `Senator of the Philippines`,
+        committees: `Profile details pending verification`,
+        bio: `Named in the supplied Bri's List of Politicians as an incumbent Senator; detailed biographical, educational, legislative, and legal entries were not supplied in the source attachment and are left transparently pending verification.`,
+        recordStatus: `Pending Verification`,
+        recordTags: [`Pending Verification`],
+        tags: [`experience`],
+        avatar: { skin: `#CFA07E`, hair: `#212123`, style: `short`, glasses: false, attire: `barong`, tie: `#5E4B28` },
+        education: [{ year: `Pending`, label: `Information pending verification against official Senate records.` }],
+        career: [{ year: `Senate Term`, label: `Senator of the Philippines (named in source; detailed candidacy history pending verification)` }],
+        projects: [],
+        records: [{ title: `Public Record Status`, status: `Pending Verification`, detail: `Named in Bri's List of Politicians; specific case or record details were not supplied in the source attachment.` }],
+        apaCitations: [
+          `Sinyasat Electoral Research Compilation. (2026). Bri's List of Politicians: Robin Padilla [Named entry pending full dossier, MIL PBA_FINALS-2.pdf].`
+        ]
+      },
+      {
+        slug: `chiz-escudero`,
+        name: `Chiz Escudero`,
+        nickname: `Sen. Chiz`,
+        age: null,
+        ageLabel: `Age pending verification in source`,
+        birthInfo: `Pending verification`,
+        branch: `Senate`,
+        position: `Senator of the Philippines`,
+        committees: `Profile details pending verification`,
+        bio: `Named in the supplied Bri's List of Politicians as an incumbent Senator; detailed biographical, educational, legislative, and legal entries were not supplied in the source attachment and are left transparently pending verification.`,
+        recordStatus: `Pending Verification`,
+        recordTags: [`Pending Verification`],
+        tags: [`experience`],
+        avatar: { skin: `#D9AB8C`, hair: `#2B2D32`, style: `sidepart`, glasses: false, attire: `suit`, tie: `#3D5A78` },
+        education: [{ year: `Pending`, label: `Information pending verification against official Senate records.` }],
+        career: [{ year: `Senate Term`, label: `Senator of the Philippines (named in source; detailed candidacy history pending verification)` }],
+        projects: [],
+        records: [{ title: `Public Record Status`, status: `Pending Verification`, detail: `Named in Bri's List of Politicians; specific case or record details were not supplied in the source attachment.` }],
+        apaCitations: [
+          `Sinyasat Electoral Research Compilation. (2026). Bri's List of Politicians: Chiz Escudero [Named entry pending full dossier, MIL PBA_FINALS-2.pdf].`
+        ]
+      },
+      {
+        slug: `raffy-tulfo`,
+        name: `Raffy Teshiba Tulfo`,
+        nickname: `Idol Raffy`,
+        age: 66,
+        ageLabel: `66 years old (Born March 12, 1960)`,
+        birthInfo: `Quezon City, Philippines`,
+        branch: `Senate`,
+        position: `Senator of the Philippines`,
+        committees: `Chair: Public Services; Migrant Workers; Labor, Employment & HR Development (Former Chair: Energy, 2022–2024)`,
+        bio: `Rafael "Raffy" Teshiba Tulfo, known as "Idol Raffy," built a decades-long broadcast career through Wanted sa Radyo and Raffy Tulfo in Action (30M+ YouTube subscribers) before winning a Senate seat as an Independent in 2022 (3rd overall, 23.39M votes).`,
+        recordStatus: `Convicted`,
+        recordTags: [`Convicted`, `Dismissed/Acquitted`, `Allegations/Pending`],
+        tags: [`labor`, `transparency`],
+        avatar: { skin: `#D8A887`, hair: `#24262B`, style: `short`, glasses: true, attire: `barong`, tie: `#7895B2` },
+        education: [
+          { year: `4 years tertiary coursework`, label: `Non-degree / College Dropout — took coursework in economics, political science, agribusiness, and commerce before pursuing broadcasting and enterprise` }
+        ],
+        career: [
+          { year: `2019`, label: `Endorsed ACT-CIS Partylist (secured 3 House seats; did not run personally)` },
+          { year: `2022–Present`, label: `Senator of the Philippines — Placed 3rd overall (23,396,954 votes / 42.12%) as an Independent` }
+        ],
+        projects: [
+          { title: `OFW Reintegration & Protection Bills (SB 2423 / SB 1839, SB 1910, SB 1480)`, date: `2022–Present`, desc: `Bagong Balikbayang Manggagawa Act, Free Financial Literacy Education for OFWs Act, and OFW Labor Dispute Commission Act.`, involvement: `Principal author in the Senate.`, outcome: `Filed and advanced through Migrant Workers & Labor Committees.` },
+          { title: `Meralco System Loss & NGCP National Security Audit`, date: `2022–2024`, desc: `Led Senate probes removing non-technical power-theft pass-through costs and auditing 40% State Grid of China equity in NGCP.`, involvement: `Chaired Senate Committee on Energy hearings.`, outcome: `Exposed grid security risks and consumer billing charges.` },
+          { title: `Socio-Legal Bills (Ukay-Ukay Regulation, Prison CCTV, 2-Hour Utility Response, Civil Divorce, Anti-Taray)`, date: `2022–Present`, desc: `Bills regulating second-hand clothing trade, prison CCTV, emergency utility response, VAWC amendments, and rude public employees.`, involvement: `Filed Senate legislation.`, outcome: `Pending legislative progression.` }
+        ],
+        records: [
+          { title: `Michael Guy Libel Case (2004; SC Decision July 2019)`, status: `Convicted`, detail: `Sued over an Abante Tonite article alleging involvement in a DOF tax fraud probe; convicted by Makati RTC (2010) and affirmed by the Supreme Court in July 2019 with ordered damages.` },
+          { title: `Bureau of Customs Libel Case (1999; SC Decision June 2021)`, status: `Acquitted`, detail: `14 counts of libel over Abante Tonite columns alleging customs corruption; convicted by Pasay RTC in 2005 but acquitted by the Supreme Court in June 2021.` },
+          { title: `Mike Arroyo Libel Case (2006) & SPO3 Manlangit Complaint (2014)`, status: `Dismissed / Bailed`, detail: `Mike Arroyo libel suit dismissed in July 2007; posted bail in 2014 Manlangit T3 broadcast complaint (20-day MTRCB suspension).` },
+          { title: `Bigamy Complaint (2019) & COMELEC Disqualification Petition (2022–2023)`, status: `Dismissed`, detail: `First wife Julieta Pearson filed a 2019 bigamy suit (records note prior 1980s judicial declaration of presumptive death). 2022 COMELEC disqualification petition was dismissed and affirmed in 2023.` },
+          { title: `1UP / Superbreakthrough Endorsement Controversy (2023)`, status: `No Charges`, detail: `Questioned over endorsing products of a firm whose parent company received an SEC cease-and-desist order; office clarified endorsement covered product quality only.` }
+        ],
+        apaCitations: [
+          `Supreme Court of the Philippines. (2023). SC upholds COMELEC dismissal of disqualification case against Senator Tulfo. sc.judiciary.gov.ph/sc-upholds-comelec-dismissal-of-disqualification-case-against-senator-tulfo/`,
+          `Senate of the Philippines. (n.d.). Senator Raffy T. Tulfo. senate.gov.ph/senator/Raffy-T.-Tulfo`,
+          `Sinyasat Electoral Research Compilation. (2026). Sof's List of Politicians: Raffy Teshiba Tulfo [Research Dossier, MIL PBA_FINALS-1.pdf].`
+        ]
+      },
+      {
+        slug: `alan-peter-cayetano`,
+        name: `Alan Peter Schramm Cayetano`,
+        nickname: `Sen. Alan`,
+        age: 56,
+        ageLabel: `56 years old (Born October 28, 1970)`,
+        birthInfo: `Mandaluyong, Rizal`,
+        branch: `Senate`,
+        position: `Senator & Senate Minority Floor Leader (Former 33rd Senate President)`,
+        committees: `Former Chair: Accounts, Science & Technology, Higher Education, Justice, Banks`,
+        bio: `Son of late Senator Renato "Compañero" Cayetano and Sandra Schramm, Alan Peter Cayetano began in Taguig local office at age 21, served as House Speaker (2019–2020) and Foreign Affairs Secretary (2017–2018), briefly held the Senate Presidency in May–June 2026, and serves as Senate Minority Floor Leader.`,
+        recordStatus: `Allegations/Pending`,
+        recordTags: [`Allegations/Pending`, `Dismissed/Acquitted`],
+        tags: [`scholar`, `labor`, `experience`],
+        avatar: { skin: `#DFB69A`, hair: `#2B2E35`, style: `short`, glasses: false, attire: `suit`, tie: `#1D4488` },
+        education: [
+          { year: `Elementary & High School`, label: `De La Salle Santiago Zobel School` },
+          { year: `1993`, label: `B.A. in Political Science, University of the Philippines Diliman (University Student Council member)` },
+          { year: `1997`, label: `Juris Doctor, Ateneo de Manila University School of Law — 2nd Honors / Silver Medalist` },
+          { year: `1998`, label: `Admitted to the Philippine Bar (relinquished dual US citizenship)` }
+        ],
+        career: [
+          { year: `1992–1998`, label: `Taguig Municipal Councilor (1992–1995) & Taguig Vice Mayor (1995–1998)` },
+          { year: `1998–2007`, label: `Representative, Taguig–Pateros` },
+          { year: `2007–2017`, label: `Senator of the Philippines (9th in 2007; 3rd in 2013); 2016 VP Bid (Lost, 3rd)` },
+          { year: `2017–2020`, label: `Secretary of Foreign Affairs (2017–2018); Representative & 22nd House Speaker (2019–2020)` },
+          { year: `2022–Present`, label: `Senator (7th, 19.29M votes); 33rd Senate President (May–Jun 2026); Minority Leader (Jun 2026–Present)` }
+        ],
+        projects: [
+          { title: `Iskolar ng Bayan Act of 2014 (R.A. 10648) & UP Charter (R.A. 9500)`, date: `2008; 2014`, desc: `Grants automatic SUC scholarships to top public high school graduates and institutionalizes UP as the national university.`, involvement: `Author / co-author.`, outcome: `Enacted as RA 10648 and RA 9500.` },
+          { title: `Salary Standardization Law (R.A. 11466) & Dept. of Migrant Workers (R.A. 11641)`, date: `2019–2021`, desc: `Civil service pay scale increases for teachers/workers and creation of the cabinet-level Department of Migrant Workers.`, involvement: `Sponsor / co-author.`, outcome: `Enacted into law.` },
+          { title: `10-Year Passport Validity (R.A. 10928) & PHIVOLCS Modernization (R.A. 12180)`, date: `2017–2025`, desc: `Extended passport validity to ten years and modernized seismic/volcanic monitoring.`, involvement: `Co-sponsor / author.`, outcome: `Enacted into law.` },
+          { title: `10K Ayuda / Sampung Libong Pag-asa & Sari-Saring Pag-asa`, date: `Pandemic Aid`, desc: `Cash assistance and micro-store recovery aid initiatives.`, involvement: `Program initiator.`, outcome: `Distributed direct pandemic assistance.` }
+        ],
+        records: [
+          { title: `Pork Barrel & Taguig Multicab Graft Complaints (2013–2014)`, status: `Denied / No Conviction`, detail: `Named in Napoles affidavits and sued for graft in 2014 over 2007–2009 PDAF spending and Taguig multicabs; Cayetano denied all allegations. Status: No criminal conviction.` },
+          { title: `2019 SEA Games PHISGOC Cauldron & NBI Probe (2019–July 2026)`, status: `Under NBI Investigation`, detail: `Criticized over ₱50M cauldron and ₱9.5B budget; in July 2026 the NBI launched a formal probe into alleged infrastructure irregularities. Status: Under investigation; no conviction.` },
+          { title: `2026 Senate Presidency Standoff & Staged Shooting Incident (May–June 2026)`, status: `Ousted as Senate President`, detail: `DOJ/NBI confirmed the Senate was never under attack during a May 13, 2026 incident tied to an ICC warrant for Sen. Ronald dela Rosa; led to his ouster on June 3, 2026.` },
+          { title: `Taguig "Ghost" Flood Control Projects & ₱6.7B Insertions (2026)`, status: `Submitted to Ombudsman`, detail: `Sen. Lacson submitted evidence in July–Aug 2026 alleging 32 duplicate/ghost Taguig flood projects and ₱6.7B in 2025 insertions. Status: Pending Ombudsman review.` },
+          { title: `2007 & 2019 COMELEC Disqualification Petitions`, status: `Dismissed`, detail: `Citizenship (2007) and residency (2019) petitions were both dismissed by COMELEC.` }
+        ],
+        apaCitations: [
+          `Embassy of the Philippines in Australia. (n.d.). Alan Peter Schramm Cayetano [Official Profile]. Department of Foreign Affairs. dms.philembassy.org.au`,
+          `Inquirer.net. (2022). Senate elects first batch of committee chairmanships for 19th Congress. Philippine Daily Inquirer. newsinfo.inquirer.net/1635197`,
+          `Sinyasat Electoral Research Compilation. (2026). Sof's List of Politicians: Alan Peter Schramm Cayetano [Research Dossier, MIL PBA_FINALS-1.pdf].`
+        ]
+      },
+      {
+        slug: `loren-legarda`,
+        name: `Loren Legarda`,
+        nickname: `Sen. Loren`,
+        age: 66,
+        ageLabel: `66 years old`,
+        birthInfo: `Malabon, Rizal`,
+        branch: `Senate`,
+        position: `Senator of the Philippines (4th Term)`,
+        committees: `Former Senate Majority Leader (2001–2004) & Senate President Pro Tempore`,
+        bio: `Lorna Regina Bautista Legarda was a multi-awarded broadcast journalist for 20 years before topping the 1998 and 2007 Senate elections. Known for over 152 environmental, cultural, and women's protection laws, she also served as Antique Representative and House Deputy Speaker (2019–2022).`,
+        recordStatus: `Allegations/Pending`,
+        recordTags: [`Allegations/Pending`],
+        tags: [`culture`, `tuition`, `experience`],
+        avatar: { skin: `#DFB496`, hair: `#2A2322`, style: `shoulder`, glasses: false, attire: `barong`, tie: `#255E44` },
+        education: [
+          { year: `Primary & Secondary`, label: `Assumption Convent — Valedictorian (Grade School), Honors (High School)` },
+          { year: `1981`, label: `B.A. in Broadcast Communication, Cum Laude, UP Diliman; special studies at UCLA` },
+          { year: `NDCP`, label: `Master in National Security Administration (MNSA) — Class Valedictorian, Gold Medal for Best Thesis` },
+          { year: `2018; 2025`, label: `Honorary Doctorates from UP Diliman (2018), Nueva Vizcaya State Univ., and Univ. of Antique (2025)` }
+        ],
+        career: [
+          { year: `1998; 2007; 2013`, label: `Elected Senator (Rank 1 in 1998 & 2007; Rank 2 in 2013); Majority Leader (2001–2004)` },
+          { year: `2004; 2010`, label: `Vice-Presidential Candidate — Lost (2nd in 2004, 3rd in 2010)` },
+          { year: `2019–2022`, label: `Representative, Lone District of Antique & Deputy Speaker` },
+          { year: `2022–Present`, label: `Senator (Rank 2, 24.2M votes); President Pro Tempore (2022–2024; May–Jun 2026)` }
+        ],
+        projects: [
+          { title: `Climate & Environmental Governance (RA 9729, RA 10174, RA 9003, RA 9513, RA 10121)`, date: `1999–2024`, desc: `Author/co-author of Climate Change Act, People's Survival Fund, Ecological Solid Waste Management, Clean Air Act, Renewable Energy Act, DRRM Act, ENIPAS, and PENCAS.`, involvement: `Principal author and UNDRR Global Champion for Resilience.`, outcome: `Foundational Philippine climate and disaster legal framework.` },
+          { title: `Women, Children & Social Protection (RA 9262, RA 9710, RA 9231, RA 9994)`, date: `2003–2013`, desc: `Anti-VAWC Law, Magna Carta of Women, Anti-Child Labor, Anti-Trafficking, Magna Carta for MSMEs, and Expanded Senior Citizens Act.`, involvement: `Author / co-author.`, outcome: `Enacted into law.` },
+          { title: `Education, Culture & Green Civic Foundations (RA 10931, RA 10066, RA 11961)`, date: `2009–2025`, desc: `Free Tertiary Education, National Cultural Heritage Act, Cultural Mapping Law, 2M+ trees via Luntiang Pilipinas, and 2025 Frankfurt Book Fair Guest of Honour.`, involvement: `Legislative author and civic foundation founder.`, outcome: `Enacted laws and national cultural milestones.` }
+        ],
+        records: [
+          { title: `SALN Disclosure (2013) & Pork Barrel / Budget Insertions (2014–2018)`, status: `Denied / Allegations`, detail: `Faced 2013 SALN complaints (presented docs showing NY unit declared since 2007), 2014 "Dahon" witness claims (denied), and 2017–2018 Senate budget insertion scrutiny.` },
+          { title: `Solar Franchise Controversy, Plunder Probe & Departure Abroad (2018–Aug 2026)`, status: `Under Investigation`, detail: `Former Rep. Atienza alleged 2018 lobbying for son Leandro Leviste's Solar Para Sa Bayan; DOE imposed ₱25B fine in Jan 2026. In July 2026 Ombudsman Remulla announced a preliminary plunder/graft probe; NBI confirmed Legarda & Leviste left the country on Aug 7, 2026. Status: Preliminary investigation; no conviction.` },
+          { title: `Flood Control Kickback Recantation (June 2026)`, status: `Recanted`, detail: `Former aides of Zaldy Co submitted affidavits alleging kickbacks, but their counsel publicly recanted all claims against Legarda in June 2026.` }
+        ],
+        apaCitations: [
+          `ASEAN Centre for Biodiversity. (n.d.). ASEAN Biodiversity Heroes: Senator Loren Legarda. aseanbiodiversity.org/asean-bio-heroes/senator-loren-legarda/`,
+          `Senate of the Philippines Legislative Digital Resources. (n.d.). Senator Loren B. Legarda. ldr.senate.gov.ph/senator/loren-b-legarda`,
+          `Sinyasat Electoral Research Compilation. (2026). Sof's List of Politicians: Loren Legarda [Research Dossier, MIL PBA_FINALS-1.pdf].`
+        ]
+      },
+      {
+        slug: `sonny-angara`,
+        name: `Sonny Angara`,
+        nickname: `Sec. Sonny`,
+        age: 54,
+        ageLabel: `54 years old`,
+        birthInfo: `Manila`,
+        branch: `Executive`,
+        position: `54th Secretary of Education (DepEd)`,
+        committees: `President, SEAMEO Council; Chair, SBP; National President, LDP`,
+        bio: `Juan Edgardo "Sonny" Manalang Angara is a lawyer, former three-term Aurora Representative, and two-term Senator who authored over 200 laws on education, taxation, and industry before being appointed Secretary of Education in July 2024.`,
+        recordStatus: `Clean Record`,
+        recordTags: [`Clean Record`],
+        tags: [`tuition`, `infra`, `clean`, `experience`],
+        avatar: { skin: `#DBAC8A`, hair: `#24262B`, style: `sidepart`, glasses: false, attire: `barong`, tie: `#3D5A78` },
+        education: [
+          { year: `Primary & Secondary`, label: `Xavier School (San Juan) and Douai School (United Kingdom)` },
+          { year: `1994`, label: `B.S. in International Relations (Honors), London School of Economics (LSE)` },
+          { year: `2000`, label: `Bachelor of Laws (LL.B.), University of the Philippines College of Law` },
+          { year: `2003`, label: `Master of Laws (LL.M.), Harvard Law School` }
+        ],
+        career: [
+          { year: `2004–2013`, label: `Representative, Lone District of Aurora (3 terms)` },
+          { year: `2013–2024`, label: `Senator of the Philippines (Rank 6 in both 2013 & 2019)` },
+          { year: `2024–Present`, label: `54th Secretary of the Department of Education (DepEd)` }
+        ],
+        projects: [
+          { title: `Education Laws & Project Handa (RA 10931, RA 11997, RA 11899, RA 10157, RA 10627)`, date: `2012–2025`, desc: `Free College Tuition, Kabalikat sa Pagtuturo teacher allowance law, EDCOM 2, Kindergarten Act, Anti-Bullying Act, and DepEd Project Handa school readiness tracker.`, involvement: `Author/co-author in Congress and DepEd Secretary.`, outcome: `Enacted into law and implemented nationwide.` },
+          { title: `Tatak Pinoy Act (R.A. 11981) & Tax Reforms (TIMTA, PWD VAT, Minimum Wage)`, date: `2008–2024`, desc: `National industrial competitiveness strategy plus tax relief and transparency laws (RA 10708, RA 10754, RA 9504).`, involvement: `Principal author.`, outcome: `Enacted into law.` },
+          { title: `Bayanihan II (RA 11494), COVID-19 Vaccination (RA 11525), Kasambahay & Sports Laws`, date: `2013–2023`, desc: `Pandemic recovery financing as Senate Finance Chair, domestic worker protections (RA 10361), and Athletes Incentives Act (RA 10699).`, involvement: `Author / Senate Finance sponsor.`, outcome: `Enacted into law.` }
+        ],
+        records: [
+          { title: `APECO Controversy & Political Dynasty Debate`, status: `Policy Critique (No Criminal Charges)`, detail: `Faced Senate scrutiny (e.g., Sen. Sergio Osmeña III) over Aurora Pacific Economic Zone (APECO) viability and indigenous displacement, plus public debate on Angara family succession in Aurora. These are policy critiques rather than criminal proceedings.` }
+        ],
+        apaCitations: [
+          `Inquirer.net. (2025). Angara launches Project Handa to track nationwide school readiness. Philippine Daily Inquirer. newsinfo.inquirer.net/2240521`,
+          `Sinyasat Electoral Research Compilation. (2026). Sof's List of Politicians: Sonny Angara [Research Dossier, MIL PBA_FINALS-1.pdf].`
+        ]
+      },
+      {
+        slug: `grace-poe`,
+        name: `Grace Poe`,
+        nickname: `Sen. Grace`,
+        age: null,
+        ageLabel: `Age pending verification in source`,
+        birthInfo: `Pending verification`,
+        branch: `Senate`,
+        position: `Public Official (Listed in Sof's List)`,
+        committees: `Profile details pending verification`,
+        bio: `Named as a priority entry in Sof's List of Politicians; detailed biographical, educational, legislative, and legal entries were not supplied in the source attachment and remain visibly pending verification.`,
+        recordStatus: `Pending Verification`,
+        recordTags: [`Pending Verification`],
+        tags: [`experience`],
+        avatar: { skin: `#E0B496`, hair: `#282221`, style: `shoulder`, glasses: false, attire: `blazer`, tie: `#7895B2` },
+        education: [{ year: `Pending`, label: `Information pending verification against official primary records.` }],
+        career: [{ year: `Pending`, label: `Named in Sof's List of Politicians; full career timeline pending verification.` }],
+        projects: [],
+        records: [{ title: `Public Record Status`, status: `Pending Verification`, detail: `Named in Sof's List of Politicians; case or record details were not supplied in the attachment.` }],
+        apaCitations: [
+          `Sinyasat Electoral Research Compilation. (2026). Sof's List of Politicians: Grace Poe [Named entry pending full dossier, MIL PBA_FINALS-1.pdf].`
+        ]
+      },
+      {
+        slug: `vico-sotto`,
+        name: `Vico Sotto`,
+        nickname: `Mayor Vico`,
+        age: null,
+        ageLabel: `Age pending current-date verification`,
+        birthInfo: `Pasig City (Local Executive)`,
+        branch: `Local Government`,
+        position: `Mayor of Pasig City`,
+        committees: `Local Chief Executive; Transparency & Participatory Governance`,
+        bio: `Victor Ma. Regis "Vico" Sotto is a local public servant recognized for anti-corruption, transparency, and citizen-participation initiatives in Pasig City. Named as a priority entry in Sof's List of Politicians, full biographical and project details await primary-record supplementation.`,
+        recordStatus: `Allegations/Pending`,
+        recordTags: [`Allegations/Pending`, `Clean Record`],
+        tags: [`transparency`, `clean`],
+        avatar: { skin: `#DFB495`, hair: `#222429`, style: `sidepart`, glasses: false, attire: `barong`, tie: `#1D4488` },
+        education: [{ year: `Pending`, label: `Detailed educational timeline pending verification from supplied records.` }],
+        career: [
+          { year: `2016–2019`, label: `City Councilor of Pasig` },
+          { year: `2019–Present`, label: `Mayor of Pasig City` }
+        ],
+        projects: [],
+        records: [
+          { title: `Reported Complaint Note`, status: `Verification Pending`, detail: `A reported complaint noted in earlier design references is an allegation rather than a legal finding; current disposition requires verification against official Pasig and Ombudsman records.` }
+        ],
+        apaCitations: [
+          `Sinyasat Electoral Research Compilation. (2026). Sof's List of Politicians: Vico Sotto [Priority entry & career notes, MIL PBA_FINALS-1.pdf].`
+        ]
+      }
+    ];
+
+    const ELECTION_STEPS = [
+      { num: `01`, title: `Know COMELEC`, desc: `The Commission on Elections (COMELEC) is the constitutional body that administers and enforces Philippine election laws, manages voter registration and polling precincts, and supervises election officers and boards.` },
+      { num: `02`, title: `Check Qualifications`, desc: `For regular elections, a voter must be a Filipino citizen, at least 18 years old on election day, meet statutory residency requirements (at least 1 year in the Philippines and 6 months in the locality), and not be disqualified by law.` },
+      { num: `03`, title: `Register to Vote`, desc: `Apply in person at your local Office of the Election Officer during an announced COMELEC registration period, submit required identification, complete biometrics capture, and await Election Registration Board (ERB) approval.` },
+      { num: `04`, title: `Verify Your Precinct`, desc: `Before election day, verify your active voter status, assigned polling place, and precinct number through official COMELEC precinct finder channels or posted lists.` },
+      { num: `05`, title: `Vote on Election Day`, desc: `Arrive during official polling hours, locate your clustered precinct, verify your identity with the Electoral Board, receive your official ballot and secrecy folder, shade choices cleanly, and feed the ballot as instructed.` },
+      { num: `06`, title: `Protect Ballot Secrecy`, desc: `Your vote is strictly confidential. No employer, barangay official, or watcher may require you to reveal your ballot. Do not photograph a completed ballot or display it to anyone.` },
+      { num: `07`, title: `Counting & Transmission`, desc: `After polls close, Electoral Boards oversee automated or manual counting under statutory rules, print official Election Returns (ERs) in the presence of watchers, and transmit results.` },
+      { num: `08`, title: `Canvassing of Votes`, desc: `Authorized Boards of Canvassers aggregate Election Returns at the municipal, city, provincial, or national level—with Congress sitting as National Board of Canvassers for President and Vice President.` },
+      { num: `09`, title: `Proclamation`, desc: `Once the legally required canvass is completed, the proper Board proclaims winning candidates, subject to applicable election protests or COMELEC/Supreme Court orders.` },
+      { num: `10`, title: `Report Violations`, desc: `Document what you safely observe—without risking personal safety—and report vote-buying, coercion, flying voters, or ballot secrecy violations to COMELEC officers, law enforcement, or accredited legal-aid monitors.` }
+    ];
+
+    const POLICY_KB = [
+      {
+        keys: [`death penalty`, `capital punishment`, `anti-death`],
+        title: `Anti-Death Penalty Advocacy in the Philippines`,
+        summary: `The Philippines abolished capital punishment in 2006 under Republic Act No. 9346. Proponents of maintaining abolition argue that capital punishment does not deter crime, risks executing innocent persons in an overburdened justice system, and violates international human rights treaties (such as the Second Optional Protocol to the ICCPR).`,
+        connections: [
+          { slug: `kiko-pangilinan`, note: `Consistently opposed congressional moves to reinstate the death penalty and authored restorative justice laws like the Juvenile Justice and Welfare Act (RA 9344).` },
+          { slug: `chel-diokno`, note: `Strongly opposes reimposition of the death penalty through FLAG and public advocacy, emphasizing due process and systemic justice reform instead.` }
+        ]
+      },
+      {
+        keys: [`4ps`, `pantawid`, `11310`, `conditional cash`],
+        title: `4Ps — Pantawid Pamilyang Pilipino Program (R.A. 11310)`,
+        summary: `Enacted on April 17, 2019, Republic Act No. 11310 institutionalized the 4Ps as the national poverty-reduction strategy. Administered by the DSWD, it provides conditional cash grants to eligible poor households on the condition that children stay in school, pregnant women receive maternal care, and families complete preventive health checkups.`,
+        connections: [
+          { slug: `leila-de-lima`, note: `Championed and authored the institutionalization of the 4Ps Law (RA 11310) in the Senate in 2019.` }
+        ]
+      },
+      {
+        keys: [`pdaf`, `pork barrel`, `napoles`, `priority development`],
+        title: `PDAF / "Pork Barrel" System & Supreme Court Ruling`,
+        summary: `The Priority Development Assistance Fund (PDAF), commonly called "pork barrel," allowed legislators to identify discretionary local projects in the national budget. In 2013, the Supreme Court declared PDAF unconstitutional (Belgica v. Ochoa) following revelations of diversion to fake NGOs tied to Janet Lim-Napoles. Today, budget-insertion scrutiny focuses on bicameral changes to the General Appropriations Act (GAA).`,
+        connections: [
+          { slug: `ferdinand-marcos-jr`, note: `Named in a 2016 Ombudsman plunder/graft complaint over 2011–2013 PDAF allegations; status: not convicted.` },
+          { slug: `alan-peter-cayetano`, note: `Named in 2013–2014 Napoles affidavits and graft complaints over 2007–2009 PDAF; denied allegations, no criminal conviction.` },
+          { slug: `loren-legarda`, note: `Allegedly linked in 2014 witness testimonies ("Dahon") and 2017–2018 budget-insertion debates; denied wrongdoing.` },
+          { slug: `kiko-pangilinan`, note: `Named in a 2013 privilege speech regarding PDAF allocations; status: unconfirmed and denied.` }
+        ]
+      },
+      {
+        keys: [`free tuition`, `suc`, `10931`, `tertiary education`, `college tuition`],
+        title: `Universal Access to Quality Tertiary Education Act (R.A. 10931)`,
+        summary: `Signed on August 3, 2017, Republic Act No. 10931 exempts eligible Filipino students in State Universities and Colleges (SUCs), Local Universities and Colleges (LUCs), and state-run technical-vocational institutions from paying tuition and mandatory miscellaneous fees, alongside subsidies for low-income learners.`,
+        connections: [
+          { slug: `win-gatchalian`, note: `Principal sponsor/co-author of RA 10931 alongside the ALS Act (RA 11510).` },
+          { slug: `sonny-angara`, note: `Co-author and co-sponsor of RA 10931, Kabalikat sa Pagtuturo (RA 11997), and EDCOM 2 (RA 11899).` },
+          { slug: `loren-legarda`, note: `Co-author and supporter of RA 10931 during her Senate tenure.` },
+          { slug: `kiko-pangilinan`, note: `Co-author/supporter of RA 10931.` }
+        ]
+      },
+      {
+        keys: [`coa`, `notice of disallowance`, `disallowance`, `confidential funds`, `cif`],
+        title: `COA Notice of Disallowance & Confidential Funds (CIF)`,
+        summary: `A Commission on Audit (COA) Notice of Disallowance (ND) is an administrative ruling determining that a government disbursement was irregular, unnecessary, excessive, extravagant, or illegal, ordering responsible officials to return the funds. An ND is an administrative audit action—distinct from a criminal conviction—though it may be cited as evidence in administrative, Ombudsman, or impeachment proceedings. Confidential and Intelligence Funds (CIF) are lump-sum allocations for surveillance or intelligence subject to strict joint-circular reporting rules.`,
+        connections: [
+          { slug: `sara-duterte`, note: `COA affirmed with finality a Notice of Disallowance ordering VP Sara Duterte and two OVP officials to return ₱73.287M in confidential funds (out of ₱612.5M OVP/DepEd CIF scrutiny, including ₱125M spent in 11 days in Dec 2022).` }
+        ]
+      },
+      {
+        keys: [`impeachment`, `impeach`],
+        title: `Impeachment Under the 1987 Philippine Constitution`,
+        summary: `Impeachment is a constitutional accountability process for removing high officials (President, Vice President, Supreme Court Justices, Constitutional Commissioners, and the Ombudsman) for culpable violation of the Constitution, treason, bribery, graft and corruption, or betrayal of public trust. The House of Representatives holds the exclusive power to initiate/impeach, while the Senate sits as the impeachment court to try and decide the case (requiring a two-thirds vote to convict).`,
+        connections: [
+          { slug: `sara-duterte`, note: `Facing an ongoing 2026 Senate impeachment trial over allegations including unexplained wealth, misuse of public funds, SALN violations, bribery, and grave threats.` },
+          { slug: `sonny-angara`, note: `Served as deputy spokesperson for the House prosecution panel during the 2012 Senate impeachment trial of Chief Justice Renato Corona.` }
+        ]
+      },
+      {
+        keys: [`mental health`, `11036`, `bawal bastos`, `11313`, `safe spaces`, `maternity`, `11210`],
+        title: `Social Health & Gender Protection Laws (RA 11036, RA 11313, RA 11210)`,
+        summary: `Key protective statutes enacted in 2018–2019 include the Philippine Mental Health Act (RA 11036) integrating psychiatric care into community and hospital services; the Safe Spaces / Bawal Bastos Act (RA 11313) penalizing gender-based harassment in public, workplaces, schools, and online; and the 105-Day Expanded Maternity Leave Law (RA 11210).`,
+        connections: [
+          { slug: `risa-hontiveros`, note: `Principal author and sponsor of RA 11036, RA 11313, RA 11210, RA 11166 (HIV/AIDS), and RA 11930 (Anti-OSAEC).` },
+          { slug: `kiko-pangilinan`, note: `Supported and co-authored the 105-Day Expanded Maternity Leave Law (RA 11210).` }
+        ]
+      },
+      {
+        keys: [`sagip saka`, `11321`, `agriculture`, `farmers`, `food security`],
+        title: `Sagip Saka Act (R.A. 11321) & Food Security Policy`,
+        summary: `Enacted in 2019, the Sagip Saka Act empowers national government agencies and LGUs to directly purchase agricultural and fishery products from accredited farmers and fisherfolk cooperatives—exempting those direct purchases from standard competitive bidding hurdles to raise rural incomes.`,
+        connections: [
+          { slug: `kiko-pangilinan`, note: `Principal author of the Sagip Saka Act (RA 11321) and Agriculture & Fisheries 2025 strategy.` },
+          { slug: `panfilo-lacson`, note: `Authored the Free Irrigation Service Act (RA 10969) reducing farm production costs.` }
+        ]
+      },
+      {
+        keys: [`climate`, `9729`, `environment`, `disaster`, `tatak pinoy`, `11981`, `philsys`, `11055`, `libel`, `bigamy`, `angat buhay`, `dynasty`],
+        title: `Governance, Resilience, Industry & Legal Concepts`,
+        summary: `Other major Philippine legal and civic frameworks represented in Sinyasat include the Climate Change Act (RA 9729), the Tatak Pinoy Industrial Strategy Act (RA 11981), the PhilSys National ID Act (RA 11055), the Anti-Red Tape Act (RA 9485), criminal libel jurisprudence vs. press freedom, and civil-society partnerships like Angat Buhay.`,
+        connections: [
+          { slug: `loren-legarda`, note: `Author of the Climate Change Act (RA 9729), DRRM Act (RA 10121), and Solid Waste Management Act (RA 9003).` },
+          { slug: `sonny-angara`, note: `Principal author of the Tatak Pinoy Act (RA 11981) and TIMTA (RA 10708).` },
+          { slug: `panfilo-lacson`, note: `Principal sponsor of PhilSys (RA 11055) and Anti-Red Tape Act (RA 9485).` },
+          { slug: `leni-robredo`, note: `Founded the Angat Buhay anti-poverty partnership and championed Full Disclosure (HB 19).` },
+          { slug: `raffy-tulfo`, note: `Subject of landmark Supreme Court libel rulings (2019 Michael Guy conviction; 2021 BOC acquittal) and OFW reintegration bills.` }
+        ]
+      }
+    ];
+
+    const OUT_OF_DB_NAMES = [
+      `rodrigo duterte`, `bong go`, `bato`, `dela rosa`, `ronald dela rosa`, `bam aquino`, `manny pacquiao`, `pacquiao`,
+      `tito sotto`, `vicente sotto`, `pia cayetano`, `bong revilla`, `revilla`, `jinggoy`, `estrada`, `joseph estrada`,
+      `gloria arroyo`, `arroyo`, `trillanes`, `antonio trillanes`, `mar roxas`, `roxas`, `jejomar binay`, `binay`,
+      `imeemarcos`, `imee marcos`, `camille villar`, `cynthia villar`, `manny villar`, `mark villar`, `tulfo erwin`, `erwin tulfo`,
+      `ben tulfo`, `ramon tulfo`, `martin romualdez`, `romualdez`, `zaldy co`, `elizaldy co`, `tulfo`, `migz zubiri`, `zubiri`,
+      `joel villanueva`, `jv ejercito`, `nancy binay`, `pia`, `lito lapid`,
+      `alvarez`, `pantaleon alvarez`, `abigail binay`, `joy belmonte`, `belmonte`, `honey lacuna`, `lacuna`,
+      `benigno aquino`, `noynoy`, `cory aquino`, `ferdinand marcos sr`, `imelda marcos`, `duterte`, `marcos`
+    ];
+
+    // Exact mapping to your local image files (matching extensions in your folder)
+    const PORTRAIT_FILES = {
+      "ferdinand-marcos-jr": "bbm.jpeg",
+      "leni-robredo": "leni robredo.jpg",
+      "sara-duterte": "sara duterte.jpg",
+      "isko-moreno": "isko moreno.jpg",
+      "panfilo-lacson": "ping.jpg",
+      "kiko-pangilinan": "kiko.jpg",
+      "risa-hontiveros": "risa hontiveros.jpeg",
+      "leila-de-lima": "leila de lima.jpg",
+      "chel-diokno": "chel diokno.jpeg",
+      "win-gatchalian": "win.jpg",
+      "robin-padilla": "robin.jpg",
+      "chiz-escudero": "chiz escudero.jpg",
+      "raffy-tulfo": "raffy.jpg",
+      "alan-peter-cayetano": "alan.jpg",
+      "loren-legarda": "loren.jpg",
+      "sonny-angara": "sonny angara.jpg",
+      "grace-poe": "grace poe.jpg",
+      "vico-sotto": "vico sotto.jpeg"
+    };
+
+    let state = {
+      activeView: `directory`,
+      modalSlug: null,
+      modalTab: `overview`,
+      quizAnswers: { q1: null, q2: null, q3: null, q4: null },
+      activeElectionStep: 0,
+      compareSlugs: [`leni-robredo`, `sara-duterte`, `raffy-tulfo`],
+      chatHistory: [{ role: `assistant`, html: escapeHtml(INITIAL_GREETING), links: [] }]
+    };
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, `&amp;`)
+        .replace(/</g, `&lt;`)
+        .replace(/>/g, `&gt;`)
+        .replace(/"/g, `&quot;`);
+    }
+
+    function buildFallbackSVG(p) {
+      const a = p.avatar;
+      const hairBack = a.style === `shoulder`
+        ? `<path d="M18 32 C18 14, 46 14, 46 32 L49 56 L15 56 Z" fill="${a.hair}"/>`
+        : a.style === `bob`
+        ? `<path d="M19 32 C19 14, 45 14, 45 32 L47 46 L17 46 Z" fill="${a.hair}"/>`
+        : ``;
+      const hairTop = a.style === `pompadour`
+        ? `<path d="M20 26 C20 13, 45 11, 44 26 C40 20, 26 20, 20 26 Z" fill="${a.hair}"/>`
+        : a.style === `tied`
+        ? `<circle cx="32" cy="14" r="6" fill="${a.hair}"/><path d="M20 27 C21 15, 43 15, 44 27 C38 21, 26 21, 20 27 Z" fill="${a.hair}"/>`
+        : `<path d="M20 27 C21 15, 43 15, 44 27 C39 20, 25 20, 20 27 Z" fill="${a.hair}"/>`;
+      const collar = a.attire === `barong`
+        ? `<path d="M12 64 C13 48, 51 48, 52 64 Z" fill="var(--surface-container-low)" stroke="var(--outline-variant)" stroke-width="1"/><path d="M28 48 L32 58 L36 48" fill="none" stroke="var(--outline-variant)" stroke-width="1.2"/><line x1="32" y1="53" x2="32" y2="64" stroke="var(--surface-container-high)" stroke-width="1.5"/>`
+        : `<path d="M12 64 C13 48, 51 48, 52 64 Z" fill="var(--outline-rule)"/><polygon points="27,48 32,60 37,48" fill="var(--surface-container-low)"/><polygon points="30.5,51 32,62 33.5,51" fill="${a.tie}"/>`;
+      const glasses = a.glasses
+        ? `<rect x="23.5" y="29" width="6.5" height="4.5" rx="1.2" fill="none" stroke="var(--on-surface)" stroke-width="1.2"/><rect x="34" y="29" width="6.5" height="4.5" rx="1.2" fill="none" stroke="var(--on-surface)" stroke-width="1.2"/><line x1="30" y1="31" x2="34" y2="31" stroke="var(--on-surface)" stroke-width="1.2"/>`
+        : ``;
+      return `<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Portrait of ${escapeHtml(p.name)}">
+        <rect width="64" height="64" fill="var(--surface-container-low)"/>
+        <circle cx="32" cy="34" r="24" fill="var(--info-bg)"/>
+        ${hairBack}
+        ${collar}
+        <rect x="28" y="40" width="8" height="9" rx="3" fill="${a.skin}"/>
+        <ellipse cx="32" cy="30.5" rx="11.5" ry="13.5" fill="${a.skin}"/>
+        ${hairTop}
+        <circle cx="27" cy="31.2" r="1.2" fill="var(--on-surface)"/>
+        <circle cx="37" cy="31.2" r="1.2" fill="var(--on-surface)"/>
+        ${glasses}
+        <path d="M28.5 37.5 Q32 39.8 35.5 37.5" fill="none" stroke="var(--tertiary)" stroke-width="1.3" stroke-linecap="round"/>
+      </svg>`;
+    }
+
+    function handlePortraitError(imgEl, slug) {
+      // Try alternate extension (.jpg <-> .jpeg) or vico.jpg before falling back to SVG
+      if (!imgEl.dataset.retried) {
+        imgEl.dataset.retried = "1";
+        if (slug === "vico-sotto" && !imgEl.src.endsWith("vico.jpg")) {
+          imgEl.src = "vico.jpg";
+          return;
+        }
+        if (imgEl.src.endsWith(".jpeg")) {
+          imgEl.src = imgEl.src.slice(0, -5) + ".jpg";
+          return;
+        }
+        if (imgEl.src.endsWith(".jpg")) {
+          imgEl.src = imgEl.src.slice(0, -4) + ".jpeg";
+          return;
+        }
+      }
+      const p = POLITICIANS.find(item => item.slug === slug);
+      if (p && imgEl.parentElement) {
+        imgEl.parentElement.innerHTML = buildFallbackSVG(p);
+      }
+    }
+
+    function renderAvatarSVG(p) {
+      const portraitSrc = PORTRAIT_FILES[p.slug];
+      if (!portraitSrc) return buildFallbackSVG(p);
+      return `<img src="${escapeHtml(portraitSrc)}" alt="Portrait of ${escapeHtml(p.name)}" onerror="handlePortraitError(this, '${p.slug}')">`;
+    }
+
+    function getStatusBadgeClass(status) {
+      if (status === `Clean Record`) return `status-clean`;
+      if (status === `Dismissed/Acquitted`) return `status-dismissed`;
+      if (status === `Convicted`) return `status-convicted`;
+      if (status === `Pending Verification`) return `status-pending`;
+      return `status-alleged`;
+    }
+
+    function switchView(viewId) {
+      state.activeView = viewId;
+      document.querySelectorAll(`.view-section`).forEach(el => el.classList.remove(`active`));
+      const target = document.getElementById(`view-${viewId}`);
+      if (target) target.classList.add(`active`);
+      document.querySelectorAll(`.nav-tab`).forEach(btn => {
+        btn.classList.toggle(`active`, btn.dataset.view === viewId);
+      });
+      if (viewId === `compare`) renderComparison();
+      if (viewId === `elections`) renderElectionGuide();
+      window.scrollTo({ top: 0, behavior: `smooth` });
+    }
+
+    function updateKPIs() {
+      const total = POLITICIANS.length;
+      const execLocal = POLITICIANS.filter(p => p.branch === `Executive` || p.branch === `Local Government`).length;
+      const leg = POLITICIANS.filter(p => p.branch === `Senate` || p.branch === `House of Representatives`).length;
+      const clean = POLITICIANS.filter(p => p.recordStatus === `Clean Record`).length;
+      const elTotal = document.getElementById(`kpi-total`);
+      const elEL = document.getElementById(`kpi-exec-local`);
+      const elLeg = document.getElementById(`kpi-leg`);
+      const elClean = document.getElementById(`kpi-clean`);
+      if (elTotal) elTotal.textContent = String(total);
+      if (elEL) elEL.textContent = String(execLocal);
+      if (elLeg) elLeg.textContent = String(leg);
+      if (elClean) elClean.textContent = String(clean);
+    }
+
+    function renderDirectory() {
+      const qEl = document.getElementById(`search-name`);
+      const bEl = document.getElementById(`filter-branch`);
+      const rEl = document.getElementById(`filter-record`);
+      const sEl = document.getElementById(`sort-by`);
+      const grid = document.getElementById(`directory-grid`);
+      const countEl = document.getElementById(`results-count`);
+      if (!grid) return;
+
+      const q = (qEl ? qEl.value : ``).trim().toLowerCase();
+      const branch = bEl ? bEl.value : `ALL`;
+      const rec = rEl ? rEl.value : `ALL`;
+      const sort = sEl ? sEl.value : `az`;
+
+      let items = POLITICIANS.filter(p => {
+        const matchQ = !q || p.name.toLowerCase().includes(q) || p.nickname.toLowerCase().includes(q) || p.position.toLowerCase().includes(q) || p.bio.toLowerCase().includes(q);
+        const matchB = branch === `ALL` || p.branch === branch;
+        const matchR = rec === `ALL` || p.recordStatus === rec || p.recordTags.includes(rec);
+        return matchQ && matchB && matchR;
+      });
+
+      items.sort((a, b) => {
+        if (sort === `az`) return a.name.localeCompare(b.name);
+        if (sort === `za`) return b.name.localeCompare(a.name);
+        if (sort === `age-desc`) return (b.age || -1) - (a.age || -1);
+        if (sort === `age-asc`) return (a.age || 999) - (b.age || 999);
+        if (sort === `position`) return a.position.localeCompare(b.position);
+        return 0;
+      });
+
+      if (countEl) countEl.textContent = `Showing ${items.length} of ${POLITICIANS.length} profiles`;
+
+      if (!items.length) {
+        grid.innerHTML = `<div class="empty-box" style="grid-column:1/-1;">
+          <h3 style="margin:0 0 var(--space-xs) 0;">No matching politician profiles</h3>
+          <p style="margin:0 0 var(--space-md) 0; color:var(--on-surface-variant);">Adjust your search term or clear the branch and legal record filters.</p>
+          <button type="button" class="btn btn-primary" onclick="resetFilters()">Reset All Filters</button>
+        </div>`;
+        return;
+      }
+
+      grid.innerHTML = items.map(p => `
+        <article class="pol-card">
+          <div class="pol-card-top">
+            <div class="portrait-frame">${renderAvatarSVG(p)}</div>
+            <div class="pol-meta-col">
+              <span class="branch-tag">${escapeHtml(p.branch)}</span>
+              <h2 class="pol-name">${escapeHtml(p.name)}</h2>
+              <p class="pol-pos">${escapeHtml(p.position)}</p>
+            </div>
+          </div>
+          <p class="pol-bio">${escapeHtml(p.bio)}</p>
+          <div class="pol-badges">
+            <span class="status-badge ${getStatusBadgeClass(p.recordStatus)}">${escapeHtml(p.recordStatus)}</span>
+            <span class="status-badge" style="background:var(--surface-container-low); border:1px solid var(--outline-variant); color:var(--on-surface-variant);">${p.age ? `Age ${p.age}` : `Age pending`}</span>
+          </div>
+          <div class="pol-card-actions">
+            <button type="button" class="explore-btn" onclick="openModal('${p.slug}')">Explore Dossier ↗</button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="addToCompare('${p.slug}')">Compare</button>
+          </div>
+        </article>
+      `).join(``);
+    }
+
+    function resetFilters() {
+      const qEl = document.getElementById(`search-name`);
+      const bEl = document.getElementById(`filter-branch`);
+      const rEl = document.getElementById(`filter-record`);
+      const sEl = document.getElementById(`sort-by`);
+      if (qEl) qEl.value = ``;
+      if (bEl) bEl.value = `ALL`;
+      if (rEl) rEl.value = `ALL`;
+      if (sEl) sEl.value = `az`;
+      renderDirectory();
+    }
+
+    function openModal(slug, tabName) {
+      const p = POLITICIANS.find(x => x.slug === slug);
+      if (!p) return;
+      state.modalSlug = slug;
+      state.modalTab = tabName || `overview`;
+
+      const portrait = document.getElementById(`modal-portrait`);
+      const branch = document.getElementById(`modal-branch-tag`);
+      const title = document.getElementById(`modal-pol-name`);
+      const pos = document.getElementById(`modal-pol-pos`);
+      const meta = document.getElementById(`modal-pol-meta`);
+      const modal = document.getElementById(`profile-modal`);
+
+      if (portrait) portrait.innerHTML = renderAvatarSVG(p);
+      if (branch) branch.textContent = p.branch;
+      if (title) title.textContent = `${p.name} (${p.nickname})`;
+      if (pos) pos.textContent = p.position;
+      if (meta) meta.textContent = `${p.ageLabel} · Birthplace: ${p.birthInfo}`;
+
+      switchModalTab(state.modalTab);
+      if (modal) modal.classList.add(`open`);
+    }
+
+    function closeModal() {
+      const modal = document.getElementById(`profile-modal`);
+      if (modal) modal.classList.remove(`open`);
+    }
+
+    function switchModalTab(tab) {
+      state.modalTab = tab;
+      document.querySelectorAll(`.modal-tab`).forEach(btn => {
+        btn.classList.toggle(`active`, btn.dataset.mtab === tab);
+      });
+      const p = POLITICIANS.find(x => x.slug === state.modalSlug);
+      const body = document.getElementById(`modal-tab-body`);
+      if (!p || !body) return;
+
+      if (tab === `overview`) {
+        body.innerHTML = `
+          <h3 style="font-family:var(--font-headline); margin-top:0;">Biographical &amp; Institutional Overview</h3>
+          <p>${escapeHtml(p.bio)}</p>
+          <div class="kpi-grid" style="margin-top:var(--space-md); margin-bottom:0;">
+            <div class="kpi-card"><span class="kpi-label">Current Office</span><strong style="display:block; margin-top:4px;">${escapeHtml(p.position)}</strong></div>
+            <div class="kpi-card"><span class="kpi-label">Leadership &amp; Affiliations</span><strong style="display:block; margin-top:4px;">${escapeHtml(p.committees)}</strong></div>
+            <div class="kpi-card"><span class="kpi-label">Legal Record Summary</span><span class="status-badge ${getStatusBadgeClass(p.recordStatus)}" style="margin-top:6px;">${escapeHtml(p.recordStatus)}</span></div>
+          </div>`;
+      } else if (tab === `education`) {
+        body.innerHTML = `<h3 style="font-family:var(--font-headline); margin-top:0;">Educational Attainment Timeline</h3>
+          <div class="timeline">${p.education.map(e => `<div class="timeline-item"><span class="timeline-year">${escapeHtml(e.year)}</span><div>${escapeHtml(e.label)}</div></div>`).join(``)}</div>`;
+      } else if (tab === `career`) {
+        body.innerHTML = `<h3 style="font-family:var(--font-headline); margin-top:0;">Candidacy &amp; Public Service History</h3>
+          <div class="timeline">${p.career.map(c => `<div class="timeline-item"><span class="timeline-year">${escapeHtml(c.year)}</span><div>${escapeHtml(c.label)}</div></div>`).join(``)}</div>`;
+      } else if (tab === `projects`) {
+        body.innerHTML = `<h3 style="font-family:var(--font-headline); margin-top:0;">Projects, Laws &amp; Accomplishments</h3>` +
+          (p.projects.length
+            ? `<div class="proj-list">${p.projects.map(pr => `
+                <details class="proj-item">
+                  <summary><span><span class="proj-date">${escapeHtml(pr.date)}</span>${escapeHtml(pr.title)}</span><span>+</span></summary>
+                  <div class="proj-content">
+                    <p style="margin-top:0;">${escapeHtml(pr.desc)}</p>
+                    <dl class="proj-dl">
+                      <dt>Involvement</dt><dd>${escapeHtml(pr.involvement)}</dd>
+                      <dt>Outcome</dt><dd>${escapeHtml(pr.outcome)}</dd>
+                    </dl>
+                  </div>
+                </details>`).join(``)}</div>`
+            : `<div class="empty-box"><p style="margin:0; color:var(--on-surface-variant);">Detailed legislative/project entries were not supplied in the source attachment and remain pending verification.</p></div>`);
+      } else if (tab === `record`) {
+        body.innerHTML = `<div class="context-notice" style="margin-bottom:var(--space-md);">
+            <div class="notice-icon" aria-hidden="true">i</div>
+            <div><h3>Neutral Legal Distinction</h3><p>Complaints, audit disallowances, dismissals, acquittals, and convictions carry distinct legal weight.</p></div>
+          </div>
+          <h3 style="font-family:var(--font-headline); margin-top:0;">Public Record &amp; Legal Proceedings</h3>
+          ${p.records.map(r => `<div class="record-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:var(--space-sm); flex-wrap:wrap; margin-bottom:var(--space-xs);">
+              <h4 style="margin:0;">${escapeHtml(r.title)}</h4>
+              <span class="status-badge ${getStatusBadgeClass(p.recordStatus)}">${escapeHtml(r.status)}</span>
+            </div>
+            <p style="margin:0;">${escapeHtml(r.detail)}</p>
+          </div>`).join(``)}`;
+      } else if (tab === `sources`) {
+        body.innerHTML = `<h3 style="font-family:var(--font-headline); margin-top:0;">APA References &amp; Source Attribution</h3>
+          <p style="font-size:0.9rem; color:var(--on-surface-variant);">Copy formatted APA citations for civic or academic verification. Entries marked pending should be verified against primary government registries.</p>
+          ${p.apaCitations.map((cit, idx) => `
+            <div class="citation-row">
+              <p class="citation-text">${escapeHtml(cit)}</p>
+              <button type="button" class="btn btn-accent btn-sm" onclick="copyCitation(this, '${p.slug}', ${idx})">Copy APA Citation</button>
+            </div>`).join(``)}`;
+      }
+    }
+
+    function copyCitation(btn, slug, idx) {
+      const p = POLITICIANS.find(x => x.slug === slug);
+      if (!p || !p.apaCitations[idx]) return;
+      const text = p.apaCitations[idx];
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).catch(() => {});
+      }
+      btn.textContent = `Copied ✓`;
+      setTimeout(() => { btn.textContent = `Copy APA Citation`; }, 1800);
+    }
+
+    function initCompareDropdowns() {
+      const ids = [`cmp-1`, `cmp-2`, `cmp-3`];
+      ids.forEach((id, i) => {
+        const sel = document.getElementById(id);
+        if (!sel) return;
+        const opts = (i === 2 ? `<option value="">— None —</option>` : ``) +
+          POLITICIANS.map(p => `<option value="${p.slug}">${escapeHtml(p.name)} (${escapeHtml(p.branch)})</option>`).join(``);
+        sel.innerHTML = opts;
+        sel.value = state.compareSlugs[i] || ``;
+      });
+    }
+
+    function addToCompare(slug) {
+      if (!state.compareSlugs.includes(slug)) {
+        state.compareSlugs = [slug, state.compareSlugs[0], state.compareSlugs[1]];
+      }
+      initCompareDropdowns();
+      saveState();
+      switchView(`compare`);
+    }
+
+    function renderComparison() {
+      const s1 = document.getElementById(`cmp-1`)?.value || `leni-robredo`;
+      const s2 = document.getElementById(`cmp-2`)?.value || `sara-duterte`;
+      const s3 = document.getElementById(`cmp-3`)?.value || ``;
+      state.compareSlugs = [s1, s2, s3];
+      saveState();
+      const chosen = [s1, s2, s3].filter(Boolean).map(slug => POLITICIANS.find(p => p.slug === slug)).filter(Boolean);
+      const out = document.getElementById(`compare-output`);
+      if (!out) return;
+      out.innerHTML = chosen.map(p => `
+        <div class="compare-col">
+          <div style="display:flex; gap:var(--space-md); align-items:center;">
+            <div class="portrait-frame">${renderAvatarSVG(p)}</div>
+            <div>
+              <span class="branch-tag">${escapeHtml(p.branch)}</span>
+              <h3 style="font-family:var(--font-headline); margin:4px 0 2px 0;">${escapeHtml(p.name)}</h3>
+              <span style="font-size:0.84rem; color:var(--secondary); font-weight:600;">${escapeHtml(p.position)}</span>
+            </div>
+          </div>
+          <div class="compare-block">
+            <h4>Age &amp; Status</h4>
+            <p style="margin:0; font-size:0.9rem;">${escapeHtml(p.ageLabel)}</p>
+          </div>
+          <div class="compare-block">
+            <h4>Education</h4>
+            <ul>${p.education.slice(0, 3).map(e => `<li><strong>${escapeHtml(e.year)}:</strong> ${escapeHtml(e.label)}</li>`).join(``)}</ul>
+          </div>
+          <div class="compare-block">
+            <h4>Key Projects / Legislation</h4>
+            ${p.projects.length ? `<ul>${p.projects.slice(0, 3).map(pr => `<li>${escapeHtml(pr.title)}</li>`).join(``)}</ul>` : `<p style="margin:0; font-size:0.88rem; color:var(--on-surface-variant);">Pending verification</p>`}
+          </div>
+          <div class="compare-block">
+            <h4>Legal Record</h4>
+            <span class="status-badge ${getStatusBadgeClass(p.recordStatus)}" style="margin-bottom:6px;">${escapeHtml(p.recordStatus)}</span>
+            <p style="margin:0; font-size:0.86rem; color:var(--on-surface-variant);">${escapeHtml(p.records[0]?.detail || `No entries`)}</p>
+          </div>
+          <button type="button" class="btn btn-primary btn-sm" style="margin-top:auto;" onclick="openModal('${p.slug}')">Open Full Dossier</button>
+        </div>`).join(``);
+    }
+
+    function selectQuiz(qKey, val, btn) {
+      state.quizAnswers[qKey] = val;
+      const group = btn.closest(`.quiz-options`);
+      if (group) group.querySelectorAll(`.quiz-opt`).forEach(b => b.classList.remove(`selected`));
+      btn.classList.add(`selected`);
+      saveState();
+    }
+
+    function resetQuiz() {
+      state.quizAnswers = { q1: null, q2: null, q3: null, q4: null };
+      document.querySelectorAll(`.quiz-opt`).forEach(b => b.classList.remove(`selected`));
+      const res = document.getElementById(`quiz-results`);
+      const msg = document.getElementById(`quiz-status-msg`);
+      if (msg) msg.textContent = ``;
+      if (res) res.innerHTML = `<p style="color:var(--on-surface-variant); margin:0;">Select options for all four questions on the left and click <strong>Calculate Policy Matches</strong>.</p>`;
+      saveState();
+    }
+
+    function computeQuizMatches() {
+      const vals = Object.values(state.quizAnswers).filter(Boolean);
+      const msg = document.getElementById(`quiz-status-msg`);
+      const res = document.getElementById(`quiz-results`);
+      if (vals.length < 4) {
+        if (msg) msg.textContent = `Please select one option for each of the 4 policy questions before calculating.`;
+        return;
+      }
+      if (msg) msg.textContent = `Matched against documented bills, enacted laws, and verified public records.`;
+
+      const ranked = POLITICIANS.filter(p => p.recordStatus !== `Pending Verification`).map(p => {
+        const hits = vals.filter(v => p.tags.includes(v));
+        const pct = Math.round((hits.length / 4) * 100);
+        return { p, hits, pct };
+      }).sort((a, b) => b.hits.length - a.hits.length || (a.p.recordStatus === `Clean Record` ? -1 : 1)).slice(0, 4);
+
+      if (res) {
+        res.innerHTML = ranked.map((item, idx) => `
+          <div class="match-card">
+            <div class="portrait-frame">${renderAvatarSVG(item.p)}</div>
+            <div style="flex:1 1 auto;">
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:var(--space-sm); flex-wrap:wrap;">
+                <strong style="font-family:var(--font-headline); font-size:1.08rem;">#${idx + 1} ${escapeHtml(item.p.name)}</strong>
+                <span class="dossier-pill">${item.pct}% Alignment</span>
+              </div>
+              <p style="margin:2px 0 6px 0; font-size:0.85rem; color:var(--secondary); font-weight:600;">${escapeHtml(item.p.position)}</p>
+              <p style="margin:0 0 8px 0; font-size:0.86rem; color:var(--on-surface-variant);">
+                Matched priorities: <strong>${item.hits.join(`, `) || `General public record`}</strong> · Status: ${escapeHtml(item.p.recordStatus)}
+              </p>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="openModal('${item.p.slug}','projects')">Review Documented Work</button>
+            </div>
+          </div>`).join(``);
+      }
+    }
+
+    function renderElectionGuide() {
+      const nav = document.getElementById(`election-steps-nav`);
+      const detail = document.getElementById(`election-step-detail`);
+      if (!nav || !detail) return;
+      nav.innerHTML = ELECTION_STEPS.map((st, idx) => `
+        <button type="button" class="step-btn ${state.activeElectionStep === idx ? `active` : ``}" onclick="setElectionStep(${idx})">
+          <span class="step-num">${st.num}</span>
+          <span>${escapeHtml(st.title)}</span>
+        </button>`).join(``);
+      const cur = ELECTION_STEPS[state.activeElectionStep] || ELECTION_STEPS[0];
+      detail.innerHTML = `
+        <span class="kpi-label">Step ${cur.num} of 10</span>
+        <h2 style="font-family:var(--font-headline); font-size:var(--headline-size); margin:var(--space-xs) 0 var(--space-sm) 0;">${escapeHtml(cur.title)}</h2>
+        <p style="margin:0 0 var(--space-lg) 0;">${escapeHtml(cur.desc)}</p>
+        <div class="context-notice" style="margin-bottom:0;">
+          <div class="notice-icon" aria-hidden="true">✓</div>
+          <div>
+            <h3>Fundamental Voter Rights</h3>
+            <p>Every qualified voter has the right to a free, uncoerced choice, a secret ballot, lawful assistance for seniors/PWDs/illiterate voters where authorized, and a polling precinct free of intimidation and vote-buying.</p>
+          </div>
+        </div>`;
+    }
+
+    function setElectionStep(idx) {
+      state.activeElectionStep = idx;
+      renderElectionGuide();
+    }
+
+    function renderMessages() {
+      const mainBox = document.getElementById(`ai-messages`);
+      const drawerBox = document.getElementById(`quick-drawer-msgs`);
+      const markup = state.chatHistory.map(m => {
+        const links = (m.links && m.links.length)
+          ? `<div class="ai-link-row">${m.links.map(l => `<button type="button" class="btn btn-secondary btn-sm" onclick="openModal('${l.slug}')">View ${escapeHtml(l.label)}</button>`).join(``)}</div>`
+          : ``;
+        return `<div class="msg-bubble ${m.role === `user` ? `msg-user` : `msg-assistant`}">${m.html}${links}</div>`;
+      }).join(``);
+      if (mainBox) { mainBox.innerHTML = markup; mainBox.scrollTop = mainBox.scrollHeight; }
+      if (drawerBox) { drawerBox.innerHTML = markup; drawerBox.scrollTop = drawerBox.scrollHeight; }
+    }
+
+    function findMentionedPoliticians(qLower) {
+      const aliases = {
+        'ferdinand-marcos-jr': [`marcos`, `bbm`, `bongbong`, `ferdinand`],
+        'leni-robredo': [`leni`, `robredo`],
+        'sara-duterte': [`sara`, `zimmerman`],
+        'isko-moreno': [`isko`, `moreno`, `domagoso`],
+        'panfilo-lacson': [`lacson`, `ping`, `panfilo`],
+        'kiko-pangilinan': [`kiko`, `pangilinan`],
+        'risa-hontiveros': [`risa`, `hontiveros`],
+        'leila-de-lima': [`leila`, `de lima`, `delima`],
+        'chel-diokno': [`chel`, `diokno`],
+        'win-gatchalian': [`win`, `gatchalian`, `sherwin`],
+        'robin-padilla': [`robin`, `padilla`],
+        'chiz-escudero': [`chiz`, `escudero`],
+        'raffy-tulfo': [`raffy`, `tulfo`, `idol raffy`],
+        'alan-peter-cayetano': [`cayetano`, `alan peter`, `alan`],
+        'loren-legarda': [`loren`, `legarda`],
+        'sonny-angara': [`sonny`, `angara`],
+        'grace-poe': [`grace poe`, `poe`],
+        'vico-sotto': [`vico`, `sotto`]
+      };
+      const found = [];
+      for (const p of POLITICIANS) {
+        const keys = aliases[p.slug] || [p.name.toLowerCase()];
+        if (keys.some(k => new RegExp(`\\b${k.replace(/[.*+?^${}()|[\\]\\\\]/g, `\\$&`)}\\b`, `i`).test(qLower))) {
+          found.push(p);
+        }
+      }
+      return found;
+    }
+
+    function generateAssistantReply(rawQuery) {
+      const q = rawQuery.trim();
+      const ql = q.toLowerCase();
+
+      const EXPLICIT_UNLISTED_FULL = [
+        `rodrigo duterte`, `digong`, `erwin tulfo`, `ben tulfo`, `ramon tulfo`, `pia cayetano`, `lino cayetano`,
+        `tito sotto`, `vicente sotto`, `imee marcos`, `imelda marcos`, `ferdinand marcos sr`, `marcos sr`,
+        `benigno aquino`, `noynoy aquino`, `cory aquino`, `bam aquino`, `bong go`, `bato dela rosa`, `ronald dela rosa`,
+        `manny pacquiao`, `bong revilla`, `jinggoy estrada`, `joseph estrada`, `gloria arroyo`, `antonio trillanes`,
+        `mar roxas`, `jejomar binay`, `abigail binay`, `nancy binay`, `camille villar`, `cynthia villar`, `mark villar`,
+        `manny villar`, `martin romualdez`, `zaldy co`, `elizaldy co`, `migz zubiri`, `joel villanueva`, `jv ejercito`,
+        `lito lapid`, `pantaleon alvarez`, `joy belmonte`, `honey lacuna`, `leandro leviste`
+      ];
+      let sanitizedForDbMatch = ql;
+      let hitExplicitUnlisted = false;
+      for (const full of EXPLICIT_UNLISTED_FULL) {
+        const rx = new RegExp(`\\b${full.replace(/[.*+?^${}()|[\\]\\\\]/g, `\\$&`)}\\b`, `ig`);
+        if (rx.test(sanitizedForDbMatch)) {
+          hitExplicitUnlisted = true;
+          sanitizedForDbMatch = sanitizedForDbMatch.replace(rx, ` `);
+        }
+      }
+
+      const matchedPoliticians = findMentionedPoliticians(sanitizedForDbMatch);
+
+      const hitsUnlistedName = hitExplicitUnlisted || OUT_OF_DB_NAMES.some(name => {
+        if (name === `duterte` && ql.includes(`sara`)) return false;
+        if (name === `marcos` && (ql.includes(`bbm`) || ql.includes(`bongbong`) || ql.includes(`ferdinand r`) || ql.includes(`jr`))) return false;
+        return new RegExp(`\\b${name.replace(/[.*+?^${}()|[\\]\\\\]/g, `\\$&`)}\\b`, `i`).test(ql);
+      });
+
+      const asksAboutPerson = /\b(who is|tell me about|profile of|background of|senator|mayor|president|congressman|representative|governor|politician)\b/i.test(ql);
+      const policyMatch = POLICY_KB.find(entry => entry.keys.some(k => ql.includes(k)));
+
+      if (hitsUnlistedName && matchedPoliticians.length === 0) {
+        return { html: escapeHtml(OUT_OF_DB_RESPONSE), links: [] };
+      }
+
+      if (policyMatch && matchedPoliticians.length === 0) {
+        const connHtml = policyMatch.connections.map(c => {
+          const pol = POLITICIANS.find(p => p.slug === c.slug);
+          return `<li><strong>${escapeHtml(pol ? pol.name : c.slug)}:</strong> ${escapeHtml(c.note)}</li>`;
+        }).join(``);
+        const links = policyMatch.connections.map(c => {
+          const pol = POLITICIANS.find(p => p.slug === c.slug);
+          return { slug: c.slug, label: pol ? pol.name : c.slug };
+        });
+        return {
+          html: `<strong>${escapeHtml(policyMatch.title)}</strong><br>${escapeHtml(policyMatch.summary)}<br><br><strong>Relevant Officials in Sinyasat:</strong><ul style="margin:6px 0 0 0; padding-left:1.1rem;">${connHtml}</ul>`,
+          links
+        };
+      }
+
+      if (matchedPoliticians.length >= 2) {
+        const p1 = matchedPoliticians[0];
+        const p2 = matchedPoliticians[1];
+        return {
+          html: `<strong>Side-by-Side Summary: ${escapeHtml(p1.name)} vs. ${escapeHtml(p2.name)}</strong><ul style="margin:6px 0 0 0; padding-left:1.1rem;">
+            <li><strong>${escapeHtml(p1.name)}</strong> (${escapeHtml(p1.position)}): ${escapeHtml(p1.projects[0]?.title || `Projects pending verification`)}. Legal status: <em>${escapeHtml(p1.recordStatus)}</em>.</li>
+            <li><strong>${escapeHtml(p2.name)}</strong> (${escapeHtml(p2.position)}): ${escapeHtml(p2.projects[0]?.title || `Projects pending verification`)}. Legal status: <em>${escapeHtml(p2.recordStatus)}</em>.</li>
+          </ul>`,
+          links: [{ slug: p1.slug, label: p1.name }, { slug: p2.slug, label: p2.name }]
+        };
+      }
+
+      if (matchedPoliticians.length === 1) {
+        const p = matchedPoliticians[0];
+        const projs = p.projects.slice(0, 3).map(pr => escapeHtml(pr.title)).join(`; `) || `Entries pending verification`;
+        const recs = p.records.map(r => `${escapeHtml(r.title)} (${escapeHtml(r.status)})`).join(`; `);
+        return {
+          html: `<strong>${escapeHtml(p.name)}</strong> — <em>${escapeHtml(p.position)}</em><br>
+            <strong>Background &amp; Education:</strong> ${escapeHtml(p.ageLabel)}. ${escapeHtml(p.education[0]?.label || ``)}<br>
+            <strong>Key Projects / Laws:</strong> ${projs}.<br>
+            <strong>Legal Record (${escapeHtml(p.recordStatus)}):</strong> ${recs}`,
+          links: [{ slug: p.slug, label: p.name }]
+        };
+      }
+
+      if (ql.includes(`clean`) || ql.includes(`no charge`) || ql.includes(`no corruption`)) {
+        const cleanList = POLITICIANS.filter(p => p.recordStatus === `Clean Record`);
+        return {
+          html: `<strong>Profiles with Clean / No Corruption Charges Noted (${cleanList.length}):</strong><br>${cleanList.map(p => `• <strong>${escapeHtml(p.name)}</strong> (${escapeHtml(p.position)})`).join(`<br>`)}`,
+          links: cleanList.map(p => ({ slug: p.slug, label: p.name }))
+        };
+      }
+
+      if (ql.includes(`vote`) || ql.includes(`comelec`) || ql.includes(`election`) || ql.includes(`violation`) || ql.includes(`register`) || ql.includes(`precinct`)) {
+        return {
+          html: `<strong>Philippine Election &amp; Voter Guidance (COMELEC):</strong><br>
+            1. <strong>Qualifications:</strong> Filipino citizen, 18+ on election day, meets residency rules, not disqualified.<br>
+            2. <strong>Precinct &amp; Ballot:</strong> Register with biometrics, verify your precinct beforehand, and guard ballot secrecy (never photograph a shaded ballot).<br>
+            3. <strong>Reporting Violations:</strong> Stay safe, note time/place/details, and report vote-buying or intimidation to COMELEC officers or accredited legal desks. Open the <em>Philippine Elections Guide</em> tab for all 10 steps.`,
+          links: []
+        };
+      }
+
+      if (asksAboutPerson) {
+        return { html: escapeHtml(OUT_OF_DB_RESPONSE), links: [] };
+      }
+
+      return {
+        html: `I can help you examine any of Sinyasat's <strong>18 documented officials</strong>, explain Philippine policy concepts (such as <em>4Ps</em>, <em>SUC Free Tuition RA 10931</em>, <em>anti-death penalty advocacy</em>, <em>PDAF</em>, or <em>COA Notices of Disallowance</em>), or walk through <em>COMELEC voting procedures</em>. Try naming a specific official or policy topic.`,
+        links: []
+      };
+    }
+
+    function askAssistant(text) {
+      state.chatHistory.push({ role: `user`, html: escapeHtml(text), links: [] });
+      const reply = generateAssistantReply(text);
+      state.chatHistory.push({ role: `assistant`, html: reply.html, links: reply.links });
+      renderMessages();
+    }
+
+    function submitAssistantQuery(source) {
+      const id = source === `drawer` ? `quick-ai-input` : `ai-query-input`;
+      const input = document.getElementById(id);
+      if (!input) return;
+      const val = input.value.trim();
+      if (!val) return;
+      input.value = ``;
+      askAssistant(val);
+    }
+
+    function toggleQuickDrawer() {
+      const drawer = document.getElementById(`quick-drawer`);
+      if (drawer) drawer.classList.toggle(`open`);
+    }
+
+    async function saveState() {
+      if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
+        try {
+          await window.notebookAppApi.setAppState({
+            quizAnswers: state.quizAnswers,
+            compareSlugs: state.compareSlugs
+          });
+        } catch (e) {}
+      }
+    }
+
+    async function initApp() {
+      updateKPIs();
+      renderDirectory();
+      initCompareDropdowns();
+      renderComparison();
+      renderElectionGuide();
+      renderMessages();
+
+      if (window.notebookAppApi) {
+        try {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved) {
+            if (saved.quizAnswers) {
+              state.quizAnswers = saved.quizAnswers;
+              Object.entries(state.quizAnswers).forEach(([qKey, val]) => {
+                if (!val) return;
+                const btn = document.querySelector(`.quiz-options[data-q="${qKey}"] .quiz-opt[data-val="${val}"]`);
+                if (btn) btn.classList.add(`selected`);
+              });
+              if (Object.values(state.quizAnswers).every(Boolean)) computeQuizMatches();
+            }
+            if (Array.isArray(saved.compareSlugs) && saved.compareSlugs.length >= 2) {
+              state.compareSlugs = saved.compareSlugs;
+              initCompareDropdowns();
+              renderComparison();
+            }
+          }
+        } catch (e) {}
+        if (typeof window.notebookAppApi.notifyAppReady === `function`) {
+          window.notebookAppApi.notifyAppReady();
+        }
+      }
+    }
+
+    document.addEventListener(`keydown`, e => {
+      if (e.key === `Escape`) closeModal();
+    });
+    initApp();
+  </script>
+</body>
+</html>
