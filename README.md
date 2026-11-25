@@ -132,11 +132,11 @@
     }
     .brand-btn:hover { opacity: 0.88; }
     .brand-emblem {
-      width: 52px;
-      height: 52px;
+      width: 54px;
+      height: 54px;
       flex-shrink: 0;
       border-radius: 50%;
-      background-color: var(--surface-container-low);
+      background-color: var(--surface-white);
       border: 2.5px solid var(--primary-ink);
       box-shadow: var(--shadow-sm);
       display: grid;
@@ -518,6 +518,139 @@
       text-align: center;
     }
 
+    /* Interactive Welcome Pop-up */
+    .welcome-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background-color: rgba(23, 35, 48, 0.72);
+      backdrop-filter: blur(2px);
+      z-index: 950;
+      padding: var(--space-md);
+      overflow-y: auto;
+      align-items: center;
+      justify-content: center;
+    }
+    .welcome-backdrop.open { display: flex; animation: fadeSlide var(--dur-short) var(--ease-out); }
+    .welcome-card {
+      background-color: var(--background);
+      border: 1.5px solid var(--primary-deep);
+      border-radius: var(--rounded-lg);
+      max-width: 650px;
+      width: 100%;
+      padding: var(--space-lg) var(--space-xl);
+      box-shadow: var(--shadow-lg);
+      margin: auto;
+    }
+    .welcome-live-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+      background-color: var(--surface-container);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      padding: 0.55rem 0.85rem;
+      margin-bottom: var(--space-md);
+      font-size: 0.85rem;
+    }
+    .welcome-progress-track {
+      height: 6px;
+      background-color: var(--surface-container-high);
+      border-radius: var(--rounded-pill);
+      overflow: hidden;
+      margin-bottom: var(--space-md);
+    }
+    .welcome-progress-fill {
+      height: 100%;
+      width: 0%;
+      background-color: var(--primary-deep);
+      transition: width var(--dur-short) var(--ease-out);
+    }
+    .welcome-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+    @media (max-width: 540px) {
+      .welcome-card { padding: var(--space-md); }
+      .welcome-grid-2 { grid-template-columns: 1fr; }
+    }
+    .welcome-q-block {
+      background-color: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+      margin-bottom: var(--space-md);
+      transition: border-color var(--dur-micro) var(--ease-out);
+    }
+    .welcome-q-block.done {
+      border-color: var(--primary);
+    }
+    .welcome-q-label {
+      display: block;
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--on-surface);
+      margin-bottom: var(--space-xs);
+    }
+    .choice-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+    }
+    .choice-pill-btn {
+      padding: 0.42rem 0.72rem;
+      min-height: 36px;
+      border-radius: var(--rounded);
+      border: 1px solid var(--outline-variant);
+      background-color: var(--surface-white);
+      color: var(--on-surface);
+      font-size: 0.84rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: transform var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+    .choice-pill-btn:hover {
+      background-color: var(--surface-container);
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+    .choice-pill-btn.active {
+      background-color: var(--primary-deep);
+      color: var(--on-primary);
+      border-color: var(--primary-ink);
+      font-weight: 700;
+    }
+    .age-feedback {
+      font-size: 0.78rem;
+      font-family: var(--font-label);
+      color: var(--secondary);
+      margin-top: 2px;
+      min-height: 1.1em;
+    }
+    .welcome-note-box {
+      background-color: var(--surface-container);
+      border-left: 3.5px solid var(--primary-deep);
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+      font-size: 0.84rem;
+      color: var(--on-surface-variant);
+      margin-bottom: var(--space-md);
+    }
+    .welcome-error {
+      color: var(--error);
+      font-size: 0.84rem;
+      font-weight: 600;
+      margin: 0 0 var(--space-sm) 0;
+      min-height: 1.2em;
+    }
+
     /* Modal */
     .modal-backdrop {
       display: none;
@@ -878,8 +1011,8 @@
   <header>
     <div class="header-inner">
       <button type="button" class="brand-btn" onclick="switchView('directory')">
-        <span class="brand-emblem" aria-hidden="true">
-          <img src="Untitled design-7.png" alt="Sinyasat emblem">
+        <span class="brand-emblem" aria-hidden="true" id="header-logo-box">
+          <img src="Untitled design-7.png" alt="Sinyasat emblem" onerror="renderBrandLogoFallback(this)">
         </span>
         <span class="brand-text">
           <span class="brand-title">Sinyasat</span>
@@ -893,7 +1026,7 @@
     </div>
     <nav class="nav-bar" aria-label="Primary sections">
       <div class="nav-inner">
-        <button type="button" class="nav-tab active" data-view="directory" onclick="switchView('directory')">Politician Directory <span class="tab-pill">18</span></button>
+        <button type="button" class="nav-tab active" data-view="directory" onclick="switchView('directory')">Politician Directory <span class="tab-pill">16</span></button>
         <button type="button" class="nav-tab" data-view="compare" onclick="switchView('compare')">Compare Candidates</button>
         <button type="button" class="nav-tab" data-view="quiz" onclick="switchView('quiz')">Match My Priorities</button>
         <button type="button" class="nav-tab" data-view="elections" onclick="switchView('elections')">Philippine Elections Guide</button>
@@ -908,17 +1041,17 @@
     <section id="view-directory" class="view-section active">
       <div class="dossier-bar">
         <span class="dossier-pill">Public Record Index</span>
-        <span class="dossier-meta">18 Documented Profiles · Neutral Background, Legislation &amp; Legal Status</span>
+        <span class="dossier-meta">16 Documented Profiles · Neutral Background, Legislation &amp; Legal Status</span>
       </div>
       <h1 class="hero-title">Look beyond the name.</h1>
       <p class="hero-lede">
-        Explore backgrounds, educational timelines, enacted laws, and verified legal dispositions for 18 Philippine public officials—designed for first-time and experienced voters.
+        Explore backgrounds, educational timelines, enacted laws, and verified legal dispositions for 16 Philippine public officials—designed for first-time and experienced voters.
       </p>
 
       <div class="kpi-grid">
-        <div class="kpi-card"><span class="kpi-label">Profiles Indexed</span><span class="kpi-val" id="kpi-total">18</span></div>
+        <div class="kpi-card"><span class="kpi-label">Profiles Indexed</span><span class="kpi-val" id="kpi-total">16</span></div>
         <div class="kpi-card"><span class="kpi-label">Executive &amp; Local Leaders</span><span class="kpi-val" id="kpi-exec-local">6</span></div>
-        <div class="kpi-card"><span class="kpi-label">Senators &amp; Representatives</span><span class="kpi-val" id="kpi-leg">12</span></div>
+        <div class="kpi-card"><span class="kpi-label">Senators &amp; Representatives</span><span class="kpi-val" id="kpi-leg">10</span></div>
         <div class="kpi-card"><span class="kpi-label">Clean / No Charges Noted</span><span class="kpi-val" id="kpi-clean">5</span></div>
       </div>
 
@@ -974,7 +1107,7 @@
       </div>
 
       <div class="results-meta">
-        <span id="results-count">Showing 18 of 18 profiles</span>
+        <span id="results-count">Showing 16 of 16 profiles</span>
         <span>Nonpartisan civic reference · Select any card to view full dossier &amp; APA citations</span>
       </div>
       <div id="directory-grid" class="card-grid"></div>
@@ -1099,11 +1232,11 @@
     <section id="view-assistant" class="view-section">
       <div class="dossier-bar">
         <span class="dossier-pill">Interactive Research Tool</span>
-        <span class="dossier-meta">Unbiased Civic AI Advisor · 18 Profiles, Policy Concepts &amp; Voting Rules</span>
+        <span class="dossier-meta">Unbiased Civic AI Advisor · 16 Profiles, Policy Concepts &amp; Voting Rules</span>
       </div>
       <h1 class="hero-title">Sinyasat Civic Assistant</h1>
       <p class="hero-lede">
-        Ask about any of the 18 indexed politicians, explore Philippine policy concepts (such as 4Ps, SUC Free Tuition, PDAF, COA disallowances, or anti-death penalty advocacy), or review voting procedures.
+        Ask about any of the 16 indexed politicians, explore Philippine policy concepts (such as 4Ps, SUC Free Tuition, PDAF, COA disallowances, or anti-death penalty advocacy), or review voting procedures.
       </p>
       <div class="ai-workspace">
         <aside class="ai-sidebar">
@@ -1115,7 +1248,7 @@
           <button type="button" class="prompt-chip" onclick="askAssistant('What is PDAF / Pork Barrel?')">What is PDAF / Pork Barrel?</button>
           <button type="button" class="prompt-chip" onclick="askAssistant('Summarize Raffy Tulfo legal cases and committees')">Summarize Raffy Tulfo's record</button>
           <button type="button" class="prompt-chip" onclick="askAssistant('Compare Leni Robredo and Sara Duterte')">Compare Leni Robredo &amp; Sara Duterte</button>
-          <button type="button" class="prompt-chip" onclick="askAssistant('Tell me about Rodrigo Duterte')">Test boundary: Rodrigo Duterte</button>
+          <button type="button" class="prompt-chip" onclick="askAssistant('I want to vote Mary')">Test boundary: I want to vote Mary</button>
         </aside>
         <div class="ai-chat-panel">
           <div id="ai-messages" class="ai-messages" aria-live="polite"></div>
@@ -1173,6 +1306,82 @@
       </div>
     </section>
   </main>
+
+  <!-- INTERACTIVE WELCOME POP-UP MODAL (NO SKIP BUTTON, NUMBER INPUT 10-110) -->
+  <div id="welcome-popup" class="welcome-backdrop open" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
+    <div class="welcome-card">
+      <div class="dossier-bar">
+        <span class="dossier-pill">Welcome to Sinyasat</span>
+        <span class="dossier-meta" id="welcome-progress-label">0 / 4 Completed</span>
+      </div>
+      <div class="welcome-progress-track" aria-hidden="true">
+        <div id="welcome-progress-bar" class="welcome-progress-fill"></div>
+      </div>
+
+      <h2 id="welcome-title" style="font-family:var(--font-headline); font-size:var(--headline-size); margin:var(--space-xs) 0 4px 0;">
+        Before you proceed, fill this up!
+      </h2>
+      <p style="margin:0 0 var(--space-sm) 0; font-size:0.9rem; color:var(--on-surface-variant);">
+        Why answer? Knowing who visits helps our team see age distribution, voting experience, and electoral awareness among users so we can keep Sinyasat clear and useful.
+      </p>
+
+      <div class="welcome-live-strip" id="welcome-live-preview">
+        <span><strong>Visitor Preview:</strong> <span id="preview-visitor-summary">Fill in your details below to see your live visitor card</span></span>
+        <span class="branch-tag" id="preview-voter-tag">Pending</span>
+      </div>
+
+      <form id="welcome-checkin-form" onsubmit="submitWelcomeCheckin(event)" novalidate>
+        <div class="welcome-grid-2">
+          <div class="field-group">
+            <label for="checkin-name">Name (Optional)</label>
+            <input id="checkin-name" class="field-control" type="text" placeholder="e.g., Sam (or leave blank)" oninput="updateWelcomeLivePreview()">
+          </div>
+          <div class="field-group">
+            <label for="checkin-age">Age (10 – 110)</label>
+            <input id="checkin-age" class="field-control" type="number" min="10" max="110" step="1" placeholder="Enter age (10–110)" oninput="handleAgeInput()">
+            <span id="age-helper-msg" class="age-feedback"></span>
+          </div>
+        </div>
+
+        <div class="welcome-q-block" id="qblock-voted">
+          <span class="welcome-q-label">Voting Experience — Have you ever voted before?</span>
+          <div class="choice-pills" id="checkin-voted-pills">
+            <button type="button" class="choice-pill-btn" data-group="voted" data-val="No — First-time voter" onclick="pickCheckinPill('voted','No — First-time voter',this)">No — First-time voter</button>
+            <button type="button" class="choice-pill-btn" data-group="voted" data-val="Yes — Experienced voter" onclick="pickCheckinPill('voted','Yes — Experienced voter',this)">Yes — Experienced voter</button>
+            <button type="button" class="choice-pill-btn" data-group="voted" data-val="Not yet eligible / Prefer not to say" onclick="pickCheckinPill('voted','Not yet eligible / Prefer not to say',this)">Not yet eligible / Prefer not to say</button>
+          </div>
+        </div>
+
+        <div class="welcome-q-block" id="qblock-site">
+          <span class="welcome-q-label">Electoral &amp; Political Awareness — Have you accessed an electoral info website before?</span>
+          <div class="choice-pills" id="checkin-site-pills">
+            <button type="button" class="choice-pill-btn" data-group="accessedSite" data-val="Yes, before" onclick="pickCheckinPill('accessedSite','Yes, before',this)">Yes, before</button>
+            <button type="button" class="choice-pill-btn" data-group="accessedSite" data-val="No, first time" onclick="pickCheckinPill('accessedSite','No, first time',this)">No, first time</button>
+            <button type="button" class="choice-pill-btn" data-group="accessedSite" data-val="Not sure" onclick="pickCheckinPill('accessedSite','Not sure',this)">Not sure</button>
+          </div>
+        </div>
+
+        <div class="welcome-q-block" id="qblock-familiar">
+          <span class="welcome-q-label">How familiar are you with PH election rules &amp; candidate records?</span>
+          <div class="choice-pills" id="checkin-familiar-pills">
+            <button type="button" class="choice-pill-btn" data-group="familiarity" data-val="Just starting out" onclick="pickCheckinPill('familiarity','Just starting out',this)">Just starting out</button>
+            <button type="button" class="choice-pill-btn" data-group="familiarity" data-val="Somewhat familiar" onclick="pickCheckinPill('familiarity','Somewhat familiar',this)">Somewhat familiar</button>
+            <button type="button" class="choice-pill-btn" data-group="familiarity" data-val="Very familiar" onclick="pickCheckinPill('familiarity','Very familiar',this)">Very familiar</button>
+          </div>
+        </div>
+
+        <div class="welcome-note-box">
+          <strong>Team Note:</strong> All info you share here is just for our team to record who is using Sinyasat and understand visitor reach—it does not grade you or affect any tool on the site.
+        </div>
+
+        <p id="welcome-error-msg" class="welcome-error" role="alert"></p>
+
+        <div style="display:flex; justify-content:flex-end;">
+          <button type="submit" class="btn btn-primary">Click to Begin →</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- PROFILE DOSSIER MODAL -->
   <div id="profile-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-pol-name" onclick="if(event.target===this){closeModal();}">
@@ -1233,7 +1442,7 @@
   <api-shim></api-shim>
   <script>
     const INITIAL_GREETING = `Hello! Welcome to Sinyasat's Civic AI Assistant. I am an unbiased civic advisor ready to help you explore Philippine political profiles, legislative records, policy concepts, and voting procedures. How can I assist your civic learning today?`;
-    const OUT_OF_DB_RESPONSE = `I apologize, but that politician is not currently listed in the Sinyasat database. I can only provide factual information regarding the 18 public officials and election guidelines documented on this platform.`;
+    const OUT_OF_DB_RESPONSE = `I'm not sure who that is—I don't have information on anyone outside the 16 politicians shown on Sinyasat. I can only share records for the 16 public officials, policy topics, and election rules listed here.`;
 
     const POLITICIANS = [
       {
@@ -1652,29 +1861,6 @@
         ]
       },
       {
-        slug: `robin-padilla`,
-        name: `Robin Padilla`,
-        nickname: `Sen. Robin`,
-        age: null,
-        ageLabel: `Age pending verification in source`,
-        birthInfo: `Pending verification`,
-        branch: `Senate`,
-        position: `Senator of the Philippines`,
-        committees: `Profile details pending verification`,
-        bio: `Named in the supplied Bri's List of Politicians as an incumbent Senator; detailed biographical, educational, legislative, and legal entries were not supplied in the source attachment and are left transparently pending verification.`,
-        recordStatus: `Pending Verification`,
-        recordTags: [`Pending Verification`],
-        tags: [`experience`],
-        avatar: { skin: `#CFA07E`, hair: `#212123`, style: `short`, glasses: false, attire: `barong`, tie: `#5E4B28` },
-        education: [{ year: `Pending`, label: `Information pending verification against official Senate records.` }],
-        career: [{ year: `Senate Term`, label: `Senator of the Philippines (named in source; detailed candidacy history pending verification)` }],
-        projects: [],
-        records: [{ title: `Public Record Status`, status: `Pending Verification`, detail: `Named in Bri's List of Politicians; specific case or record details were not supplied in the source attachment.` }],
-        apaCitations: [
-          `Sinyasat Electoral Research Compilation. (2026). Bri's List of Politicians: Robin Padilla [Named entry pending full dossier, MIL PBA_FINALS-2.pdf].`
-        ]
-      },
-      {
         slug: `chiz-escudero`,
         name: `Chiz Escudero`,
         nickname: `Sen. Chiz`,
@@ -1867,29 +2053,6 @@
         ]
       },
       {
-        slug: `grace-poe`,
-        name: `Grace Poe`,
-        nickname: `Sen. Grace`,
-        age: null,
-        ageLabel: `Age pending verification in source`,
-        birthInfo: `Pending verification`,
-        branch: `Senate`,
-        position: `Public Official (Listed in Sof's List)`,
-        committees: `Profile details pending verification`,
-        bio: `Named as a priority entry in Sof's List of Politicians; detailed biographical, educational, legislative, and legal entries were not supplied in the source attachment and remain visibly pending verification.`,
-        recordStatus: `Pending Verification`,
-        recordTags: [`Pending Verification`],
-        tags: [`experience`],
-        avatar: { skin: `#E0B496`, hair: `#282221`, style: `shoulder`, glasses: false, attire: `blazer`, tie: `#7895B2` },
-        education: [{ year: `Pending`, label: `Information pending verification against official primary records.` }],
-        career: [{ year: `Pending`, label: `Named in Sof's List of Politicians; full career timeline pending verification.` }],
-        projects: [],
-        records: [{ title: `Public Record Status`, status: `Pending Verification`, detail: `Named in Sof's List of Politicians; case or record details were not supplied in the attachment.` }],
-        apaCitations: [
-          `Sinyasat Electoral Research Compilation. (2026). Sof's List of Politicians: Grace Poe [Named entry pending full dossier, MIL PBA_FINALS-1.pdf].`
-        ]
-      },
-      {
         slug: `vico-sotto`,
         name: `Vico Sotto`,
         nickname: `Mayor Vico`,
@@ -2027,12 +2190,11 @@
       `gloria arroyo`, `arroyo`, `trillanes`, `antonio trillanes`, `mar roxas`, `roxas`, `jejomar binay`, `binay`,
       `imeemarcos`, `imee marcos`, `camille villar`, `cynthia villar`, `manny villar`, `mark villar`, `tulfo erwin`, `erwin tulfo`,
       `ben tulfo`, `ramon tulfo`, `martin romualdez`, `romualdez`, `zaldy co`, `elizaldy co`, `tulfo`, `migz zubiri`, `zubiri`,
-      `joel villanueva`, `jv ejercito`, `nancy binay`, `pia`, `lito lapid`,
-      `alvarez`, `pantaleon alvarez`, `abigail binay`, `joy belmonte`, `belmonte`, `honey lacuna`, `lacuna`,
+      `joel villanueva`, `jv ejercito`, `nancy binay`, `pia`, `lito lapid`, `robin padilla`, `robin`, `padilla`,
+      `grace poe`, `poe`, `alvarez`, `pantaleon alvarez`, `abigail binay`, `joy belmonte`, `belmonte`, `honey lacuna`, `lacuna`,
       `benigno aquino`, `noynoy`, `cory aquino`, `ferdinand marcos sr`, `imelda marcos`, `duterte`, `marcos`
     ];
 
-    // Exact mapping to your local image files (matching extensions in your folder)
     const PORTRAIT_FILES = {
       "ferdinand-marcos-jr": "bbm.jpeg",
       "leni-robredo": "leni robredo.jpg",
@@ -2044,13 +2206,11 @@
       "leila-de-lima": "leila de lima.jpg",
       "chel-diokno": "chel diokno.jpeg",
       "win-gatchalian": "win.jpg",
-      "robin-padilla": "robin.jpg",
       "chiz-escudero": "chiz escudero.jpg",
       "raffy-tulfo": "raffy.jpg",
       "alan-peter-cayetano": "alan.jpg",
       "loren-legarda": "loren.jpg",
       "sonny-angara": "sonny angara.jpg",
-      "grace-poe": "grace poe.jpg",
       "vico-sotto": "vico sotto.jpeg"
     };
 
@@ -2061,7 +2221,8 @@
       quizAnswers: { q1: null, q2: null, q3: null, q4: null },
       activeElectionStep: 0,
       compareSlugs: [`leni-robredo`, `sara-duterte`, `raffy-tulfo`],
-      chatHistory: [{ role: `assistant`, html: escapeHtml(INITIAL_GREETING), links: [] }]
+      chatHistory: [{ role: `assistant`, html: escapeHtml(INITIAL_GREETING), links: [] }],
+      visitorCheckin: { name: ``, age: ``, voted: ``, accessedSite: ``, familiarity: ``, completed: false }
     };
 
     function escapeHtml(str) {
@@ -2070,6 +2231,21 @@
         .replace(/</g, `&lt;`)
         .replace(/>/g, `&gt;`)
         .replace(/"/g, `&quot;`);
+    }
+
+    function renderBrandLogoFallback(imgEl) {
+      const box = imgEl ? imgEl.parentElement : document.getElementById(`header-logo-box`);
+      if (!box) return;
+      box.innerHTML = `<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sinyasat emblem">
+        <rect width="64" height="64" fill="var(--surface-white)"/>
+        <circle cx="32" cy="33" r="22" fill="none" stroke="var(--on-surface)" stroke-width="5"/>
+        <line x1="15" y1="45" x2="43" y2="12" stroke="var(--tertiary)" stroke-width="3.2" stroke-linecap="round"/>
+        <polygon points="16,13 38,10 42,24 20,27" fill="var(--flag-blue)"/>
+        <polygon points="20,27 42,24 44,35 22,38" fill="var(--flag-red)"/>
+        <polygon points="16,13 28,25 22,38" fill="var(--flag-white)" stroke="var(--on-surface)" stroke-width="1"/>
+        <circle cx="21" cy="25.5" r="3.4" fill="var(--flag-gold)"/>
+        <path d="M35 54 L36 37 C36 34 39 33 41 35 L43 27 C44 25 47 26 47 29 L45 38 L49 34 C51 33 53 35 51 38 L45 47 L44 54 Z" fill="#F2BA96" stroke="var(--on-surface)" stroke-width="1.5" stroke-linejoin="round"/>
+      </svg>`;
     }
 
     function buildFallbackSVG(p) {
@@ -2106,7 +2282,6 @@
     }
 
     function handlePortraitError(imgEl, slug) {
-      // Try alternate extension (.jpg <-> .jpeg) or vico.jpg before falling back to SVG
       if (!imgEl.dataset.retried) {
         imgEl.dataset.retried = "1";
         if (slug === "vico-sotto" && !imgEl.src.endsWith("vico.jpg")) {
@@ -2140,6 +2315,117 @@
       if (status === `Convicted`) return `status-convicted`;
       if (status === `Pending Verification`) return `status-pending`;
       return `status-alleged`;
+    }
+
+    function getValidAgeNumber() {
+      const raw = (document.getElementById(`checkin-age`)?.value || ``).trim();
+      if (!raw) return null;
+      const num = Number(raw);
+      if (!Number.isInteger(num) || num < 10 || num > 110) return NaN;
+      return num;
+    }
+
+    function handleAgeInput() {
+      const num = getValidAgeNumber();
+      const helper = document.getElementById(`age-helper-msg`);
+      const errEl = document.getElementById(`welcome-error-msg`);
+      if (errEl) errEl.textContent = ``;
+
+      if (helper) {
+        if (num === null) {
+          helper.textContent = ``;
+        } else if (Number.isNaN(num)) {
+          helper.textContent = `Please enter a whole number between 10 and 110.`;
+          helper.style.color = `var(--error)`;
+        } else {
+          helper.style.color = `var(--secondary)`;
+          helper.textContent = num < 18
+            ? `Age ${num} — Under voting age (18+) for regular PH elections; great for youth civic prep!`
+            : `Age ${num} — Meets the 18+ age mark for regular PH voter eligibility.`;
+        }
+      }
+      updateWelcomeLivePreview();
+    }
+
+    function updateWelcomeLivePreview() {
+      const nameVal = (document.getElementById(`checkin-name`)?.value || ``).trim();
+      const ageNum = getValidAgeNumber();
+      const voted = state.visitorCheckin.voted;
+      const site = state.visitorCheckin.accessedSite;
+      const fam = state.visitorCheckin.familiarity;
+
+      const summaryEl = document.getElementById(`preview-visitor-summary`);
+      const tagEl = document.getElementById(`preview-voter-tag`);
+      const progBar = document.getElementById(`welcome-progress-bar`);
+      const progLbl = document.getElementById(`welcome-progress-label`);
+
+      const completedCount = [
+        typeof ageNum === `number` && !Number.isNaN(ageNum),
+        Boolean(voted),
+        Boolean(site),
+        Boolean(fam)
+      ].filter(Boolean).length;
+
+      if (progBar) progBar.style.width = `${(completedCount / 4) * 100}%`;
+      if (progLbl) progLbl.textContent = `${completedCount} / 4 Completed`;
+
+      document.getElementById(`qblock-voted`)?.classList.toggle(`done`, Boolean(voted));
+      document.getElementById(`qblock-site`)?.classList.toggle(`done`, Boolean(site));
+      document.getElementById(`qblock-familiar`)?.classList.toggle(`done`, Boolean(fam));
+
+      const parts = [];
+      parts.push(nameVal || `Guest Voter`);
+      if (typeof ageNum === `number` && !Number.isNaN(ageNum)) parts.push(`Age ${ageNum}`);
+      if (fam) parts.push(fam);
+
+      if (summaryEl) summaryEl.textContent = parts.join(` · `);
+      if (tagEl) {
+        tagEl.textContent = voted ? voted.split(`—`)[0].trim() : `Step ${completedCount}/4`;
+      }
+    }
+
+    function pickCheckinPill(group, val, btn) {
+      state.visitorCheckin[group] = val;
+      if (btn && btn.parentElement) {
+        btn.parentElement.querySelectorAll(`.choice-pill-btn`).forEach(b => b.classList.remove(`active`));
+        btn.classList.add(`active`);
+      }
+      const errEl = document.getElementById(`welcome-error-msg`);
+      if (errEl) errEl.textContent = ``;
+      updateWelcomeLivePreview();
+    }
+
+    function closeWelcomePopup() {
+      const popup = document.getElementById(`welcome-popup`);
+      if (popup) popup.classList.remove(`open`);
+    }
+
+    function submitWelcomeCheckin(ev) {
+      if (ev) ev.preventDefault();
+      const nameVal = (document.getElementById(`checkin-name`)?.value || ``).trim();
+      const ageNum = getValidAgeNumber();
+      const errEl = document.getElementById(`welcome-error-msg`);
+
+      if (ageNum === null || Number.isNaN(ageNum)) {
+        if (errEl) {
+          errEl.textContent = `Please enter a valid age between 10 and 110 before continuing.`;
+        }
+        document.getElementById(`checkin-age`)?.focus();
+        return;
+      }
+
+      if (!state.visitorCheckin.voted || !state.visitorCheckin.accessedSite || !state.visitorCheckin.familiarity) {
+        if (errEl) {
+          errEl.textContent = `Please answer all three choice questions before clicking Begin.`;
+        }
+        return;
+      }
+
+      state.visitorCheckin.name = nameVal;
+      state.visitorCheckin.age = ageNum;
+      state.visitorCheckin.completed = true;
+      saveState();
+      closeWelcomePopup();
     }
 
     function switchView(viewId) {
@@ -2515,13 +2801,11 @@
         'leila-de-lima': [`leila`, `de lima`, `delima`],
         'chel-diokno': [`chel`, `diokno`],
         'win-gatchalian': [`win`, `gatchalian`, `sherwin`],
-        'robin-padilla': [`robin`, `padilla`],
         'chiz-escudero': [`chiz`, `escudero`],
         'raffy-tulfo': [`raffy`, `tulfo`, `idol raffy`],
         'alan-peter-cayetano': [`cayetano`, `alan peter`, `alan`],
         'loren-legarda': [`loren`, `legarda`],
         'sonny-angara': [`sonny`, `angara`],
-        'grace-poe': [`grace poe`, `poe`],
         'vico-sotto': [`vico`, `sotto`]
       };
       const found = [];
@@ -2532,6 +2816,42 @@
         }
       }
       return found;
+    }
+
+    function hasUnknownCandidateOrName(ql, matchedPoliticians) {
+      if (matchedPoliticians.length > 0) return false;
+
+      const hitsKnownUnlisted = OUT_OF_DB_NAMES.some(name => {
+        if (name === `duterte` && ql.includes(`sara`)) return false;
+        if (name === `marcos` && (ql.includes(`bbm`) || ql.includes(`bongbong`) || ql.includes(`ferdinand r`) || ql.includes(`jr`))) return false;
+        return new RegExp(`\\b${name.replace(/[.*+?^${}()|[\\]\\\\]/g, `\\$&`)}\\b`, `i`).test(ql);
+      });
+      if (hitsKnownUnlisted) return true;
+
+      if (/\b(vote(?:\s+for)?|candidate|elect|support|pick|choose)\s+[a-z]{2,}\b/i.test(ql)) {
+        return true;
+      }
+
+      if (/\b(who is|tell me about|profile of|background of|senator|mayor|president|congressman|representative|governor|politician)\b/i.test(ql)) {
+        return true;
+      }
+
+      const cleaned = ql.replace(/[^a-z\s'-]/g, ` `).trim();
+      const words = cleaned.split(/\s+/).filter(Boolean);
+      const nonNameWords = new Set([
+        `hi`, `hello`, `hey`, `yo`, `sup`, `thanks`, `thank`, `help`, `vote`, `voting`, `comelec`,
+        `election`, `elections`, `ballot`, `precinct`, `register`, `registration`, `violation`, `violations`,
+        `clean`, `record`, `records`, `case`, `cases`, `law`, `laws`, `bill`, `bills`, `policy`, `policies`,
+        `compare`, `quiz`, `match`, `priorities`, `about`, `team`, `4ps`, `pdaf`, `coa`, `cif`, `impeachment`,
+        `death`, `penalty`, `tuition`, `suc`, `climate`, `environment`, `agriculture`, `farmers`, `health`,
+        `mental`, `maternity`, `safe`, `spaces`, `philsys`, `libel`, `bigamy`, `dynasty`, `what`, `why`,
+        `how`, `when`, `where`, `which`, `yes`, `no`, `ok`, `okay`, `idk`, `dunno`, `sure`, `maybe`
+      ]);
+      if (words.length >= 1 && words.length <= 2 && words.every(w => w.length >= 2 && !nonNameWords.has(w))) {
+        return true;
+      }
+
+      return false;
     }
 
     function generateAssistantReply(rawQuery) {
@@ -2545,7 +2865,7 @@
         `manny pacquiao`, `bong revilla`, `jinggoy estrada`, `joseph estrada`, `gloria arroyo`, `antonio trillanes`,
         `mar roxas`, `jejomar binay`, `abigail binay`, `nancy binay`, `camille villar`, `cynthia villar`, `mark villar`,
         `manny villar`, `martin romualdez`, `zaldy co`, `elizaldy co`, `migz zubiri`, `joel villanueva`, `jv ejercito`,
-        `lito lapid`, `pantaleon alvarez`, `joy belmonte`, `honey lacuna`, `leandro leviste`
+        `lito lapid`, `robin padilla`, `grace poe`, `pantaleon alvarez`, `joy belmonte`, `honey lacuna`, `leandro leviste`
       ];
       let sanitizedForDbMatch = ql;
       let hitExplicitUnlisted = false;
@@ -2558,17 +2878,13 @@
       }
 
       const matchedPoliticians = findMentionedPoliticians(sanitizedForDbMatch);
-
-      const hitsUnlistedName = hitExplicitUnlisted || OUT_OF_DB_NAMES.some(name => {
-        if (name === `duterte` && ql.includes(`sara`)) return false;
-        if (name === `marcos` && (ql.includes(`bbm`) || ql.includes(`bongbong`) || ql.includes(`ferdinand r`) || ql.includes(`jr`))) return false;
-        return new RegExp(`\\b${name.replace(/[.*+?^${}()|[\\]\\\\]/g, `\\$&`)}\\b`, `i`).test(ql);
-      });
-
-      const asksAboutPerson = /\b(who is|tell me about|profile of|background of|senator|mayor|president|congressman|representative|governor|politician)\b/i.test(ql);
       const policyMatch = POLICY_KB.find(entry => entry.keys.some(k => ql.includes(k)));
 
-      if (hitsUnlistedName && matchedPoliticians.length === 0) {
+      if (hitExplicitUnlisted && matchedPoliticians.length === 0) {
+        return { html: escapeHtml(OUT_OF_DB_RESPONSE), links: [] };
+      }
+
+      if (hasUnknownCandidateOrName(ql, matchedPoliticians) && !policyMatch) {
         return { html: escapeHtml(OUT_OF_DB_RESPONSE), links: [] };
       }
 
@@ -2630,12 +2946,8 @@
         };
       }
 
-      if (asksAboutPerson) {
-        return { html: escapeHtml(OUT_OF_DB_RESPONSE), links: [] };
-      }
-
       return {
-        html: `I can help you examine any of Sinyasat's <strong>18 documented officials</strong>, explain Philippine policy concepts (such as <em>4Ps</em>, <em>SUC Free Tuition RA 10931</em>, <em>anti-death penalty advocacy</em>, <em>PDAF</em>, or <em>COA Notices of Disallowance</em>), or walk through <em>COMELEC voting procedures</em>. Try naming a specific official or policy topic.`,
+        html: `I'm not sure—I can only answer questions about Sinyasat's <strong>16 documented officials</strong>, Philippine policy topics (such as <em>4Ps</em>, <em>SUC Free Tuition RA 10931</em>, <em>anti-death penalty advocacy</em>, <em>PDAF</em>, or <em>COA Notices of Disallowance</em>), or <em>COMELEC voting rules</em>.`,
         links: []
       };
     }
@@ -2667,7 +2979,8 @@
         try {
           await window.notebookAppApi.setAppState({
             quizAnswers: state.quizAnswers,
-            compareSlugs: state.compareSlugs
+            compareSlugs: state.compareSlugs,
+            visitorCheckin: state.visitorCheckin
           });
         } catch (e) {}
       }
@@ -2680,6 +2993,7 @@
       renderComparison();
       renderElectionGuide();
       renderMessages();
+      updateWelcomeLivePreview();
 
       if (window.notebookAppApi) {
         try {
@@ -2708,7 +3022,9 @@
     }
 
     document.addEventListener(`keydown`, e => {
-      if (e.key === `Escape`) closeModal();
+      if (e.key === `Escape`) {
+        closeModal();
+      }
     });
     initApp();
   </script>
